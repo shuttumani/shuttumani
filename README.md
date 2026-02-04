@@ -1,4 +1,5 @@
 index. html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@ index. html
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   font-family: 'Georgia', serif;
   background: radial-gradient(circle at top,#ffd6e8,#ff9aa2);
@@ -15,16 +17,18 @@ body{
   overflow:hidden;
 }
 
-/* ===== PAGES ===== */
+/* ===== WORLDS ===== */
 .world{
-  position:absolute;
-  width:100vw;
-  height:100vh;
+  position:fixed;
+  inset:0;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  transition:transform .8s ease, opacity .8s ease;
+  padding:20px;
+  text-align:center;
+  transition:transform .8s ease;
+  will-change: transform;
 }
 
 /* ===== LOCK ===== */
@@ -58,14 +62,14 @@ body{
   100%{transform:scale(1);opacity:1}
 }
 
-/* ===== BENCH WORLD ===== */
+/* ===== BENCH ===== */
 .bench{
   width:260px;
   height:80px;
   background:#6d4c41;
   border-radius:10px;
   position:relative;
-  margin-top:20px;
+  margin:20px 0;
 }
 .bench:before,.bench:after{
   content:'';
@@ -78,20 +82,8 @@ body{
 .bench:before{left:40px}
 .bench:after{right:40px}
 
-/* ===== MAGIC HEARTS ===== */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  font-size:18px;
-  animation:float 7s linear infinite;
-}
-@keyframes float{
-  to{transform:translateY(-120vh);opacity:0}
-}
-
-/* ===== TEXT STYLE ===== */
+/* ===== TEXT ===== */
 .soft{
-  text-align:center;
   max-width:85%;
   line-height:1.6;
   opacity:.95;
@@ -101,26 +93,37 @@ body{
   font-size:14px;
   opacity:.8;
 }
+
+/* ===== HEARTS ===== */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:float 7s linear infinite;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0}
+}
 </style>
 </head>
 
 <body>
 
-<!-- ===== LOCK WORLD ===== -->
-<div class="world" id="lock">
+<!-- LOCK -->
+<div class="world" id="lock" style="transform:translateX(0)">
   <h2>Enter our date ❤️</h2>
   <input type="password" id="pass" placeholder="DDMMYYYY">
   <button onclick="unlock()">Unlock</button>
 </div>
 
-<!-- ===== KISS ===== -->
+<!-- KISS -->
 <div id="kiss">UMMAAA 💋💋</div>
 
-<!-- ===== BENCH WORLD ===== -->
+<!-- BENCH -->
 <div class="world" id="bench" style="transform:translateX(100vw)">
   <h2>The bench we shared</h2>
   <div class="bench"></div>
-  <p class="soft" style="margin-top:25px">
+  <p class="soft">
     In a room full of people,<br>
     we found a quiet place<br>
     just by sitting together.
@@ -128,24 +131,24 @@ body{
   <p class="hint">Swipe ➡️ or ⬇️</p>
 </div>
 
-<!-- ===== LETTER WORLD (PLACEHOLDER) ===== -->
+<!-- LETTER -->
 <div class="world" id="letter" style="transform:translateY(100vh)">
   <h2>Unsaid things 💌</h2>
   <p class="soft">
-    Some words were never spoken in class.<br>
+    Some words were never spoken.<br>
     They waited here.
   </p>
-  <p class="hint">More magic coming…</p>
+  <p class="hint">Swipe ➡️ to go back</p>
 </div>
 
-<!-- ===== DIARY WORLD (PLACEHOLDER) ===== -->
+<!-- DIARY -->
 <div class="world" id="diary" style="transform:translateX(-100vw)">
   <h2>Daily feelings 📖</h2>
   <p class="soft">
     This is where days will be written.<br>
     Slowly. Honestly.
   </p>
-  <p class="hint">This will grow every day</p>
+  <p class="hint">Swipe ➡️ to return</p>
 </div>
 
 <script>
@@ -157,23 +160,20 @@ function unlock(){
     kiss.style.display="flex";
     setTimeout(()=>{
       kiss.style.display="none";
-      move("bench");
+      show("bench");
       hearts();
     },2000);
-  }else alert("Wrong password ❤️");
+  } else {
+    alert("Wrong password ❤️");
+  }
 }
 
-function move(target){
-  const pos={
-    lock:{x:0,y:0},
-    bench:{x:0,y:0},
-    letter:{x:0,y:100},
-    diary:{x:-100,y:0}
-  };
-  document.querySelectorAll(".world").forEach(w=>{
-    w.style.transform=`translate(${pos[target]?.x||100}vw,${pos[target]?.y||0}vh)`;
-  });
-  current=target;
+function show(page){
+  lock.style.transform   = page==="lock"  ? "translateX(0)" : "translateX(-100vw)";
+  bench.style.transform  = page==="bench" ? "translateX(0)" : "translateX(100vw)";
+  letter.style.transform = page==="letter"? "translateY(0)" : "translateY(100vh)";
+  diary.style.transform  = page==="diary" ? "translateX(0)" : "translateX(-100vw)";
+  current = page;
 }
 
 document.addEventListener("touchstart",e=>{
@@ -186,10 +186,11 @@ document.addEventListener("touchend",e=>{
   let dy=e.changedTouches[0].clientY-startY;
 
   if(current==="bench"){
-    if(dx<-60) move("diary");
-    if(dy<-60) move("letter");
+    if(dx<-60) show("diary");
+    if(dy<-60) show("letter");
+  } else if(dx>60){
+    show("bench");
   }
-  if(current!=="bench" && dx>60) move("bench");
 });
 
 function hearts(){
