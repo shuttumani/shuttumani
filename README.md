@@ -38,6 +38,25 @@ button {
   font-size: 16px;
 }
 #content { display: none; }
+ .heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  color: #ff4d6d;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1.5);
+    opacity: 0;
+  }
+}
+ 
 </style>
 </head>
 
@@ -63,6 +82,37 @@ button {
   <audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
+<div onclick="openLetter()" style="
+  margin: 30px auto;
+  font-size: 40px;
+  cursor: pointer;
+">
+💌
+<p style="font-size:16px;">Tap the letter</p>
+</div>
+
+<div id="letter" style="
+  display:none;
+  background:#fff0f3;
+  padding:25px;
+  border-radius:20px;
+  max-width:600px;
+  margin:auto;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 1s;
+">
+  <h2>My Love ❤️</h2>
+  <p>
+    <!-- ✍️ YOUR LOVE TEXT GOES HERE -->
+    Meghana,<br><br>
+    From the moment you came into my life,
+    everything felt warmer, calmer, and more meaningful.
+    I don’t promise perfection —
+    but I promise love, honesty, and forever choosing you.
+    <br><br>
+    Happy Valentine’s Day, my heart.
+  </p>
+</div>
 
   <p>Forever yours,<br><b>— shuttumaniii ❤️</b></p>
 </div>
@@ -101,6 +151,31 @@ function unlock() {
 <script>
 function playMusic() {
   document.getElementById("loveSong").play();
+}
+</script>
+<script>
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}, 800);
+</script>
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<script>
+function openLetter() {
+  document.getElementById("letter").style.display = "block";
 }
 </script>
 
