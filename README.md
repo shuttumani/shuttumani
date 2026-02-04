@@ -2,166 +2,154 @@ index. html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Meghana ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Bench We Shared ❤️</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family: Georgia, serif;
-  background: linear-gradient(135deg,#ffafbd,#ffc3a0);
+  font-family: 'Georgia', serif;
+  background: radial-gradient(circle at top,#ffd6e8,#ff9aa2);
   color:#fff;
   overflow:hidden;
 }
 
-/* PAGES */
-.page{
+/* ===== PAGES ===== */
+.world{
+  position:absolute;
   width:100vw;
   height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  position:absolute;
-  top:0;left:0;
-  transition:transform .6s ease;
+  transition:transform .8s ease, opacity .8s ease;
 }
-.hidden{display:none}
 
-/* LOCK */
-input,button{
-  padding:12px;
-  border-radius:20px;
+/* ===== LOCK ===== */
+#lock input,#lock button{
+  padding:12px 18px;
+  border-radius:25px;
   border:none;
-  margin-top:10px;
+  margin-top:12px;
   font-size:16px;
 }
-button{background:#ff6b81;color:#fff}
+#lock button{
+  background:#ff5f7e;
+  color:#fff;
+}
 
-/* KISS */
+/* ===== KISS ===== */
 #kiss{
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  background:linear-gradient(135deg,#ff7eb3,#ff758c);
   display:none;
   justify-content:center;
   align-items:center;
-  font-size:60px;
+  font-size:64px;
   z-index:10;
-  animation:pop 2s ease;
+  animation:kissPop 2s ease;
 }
-@keyframes pop{
+@keyframes kissPop{
   0%{transform:scale(.3);opacity:0}
-  50%{transform:scale(1.3);opacity:1}
+  50%{transform:scale(1.4);opacity:1}
   100%{transform:scale(1);opacity:1}
 }
 
-/* LETTER */
-.envelope{font-size:70px;cursor:pointer;animation:bounce 2s infinite}
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-15px)}
+/* ===== BENCH WORLD ===== */
+.bench{
+  width:260px;
+  height:80px;
+  background:#6d4c41;
+  border-radius:10px;
+  position:relative;
+  margin-top:20px;
 }
-.letter{
-  background:#fff;
-  color:#333;
-  padding:25px;
-  border-radius:20px;
-  max-width:90%;
-  display:none;
+.bench:before,.bench:after{
+  content:'';
+  position:absolute;
+  width:12px;
+  height:60px;
+  background:#5d4037;
+  bottom:-60px;
 }
+.bench:before{left:40px}
+.bench:after{right:40px}
 
-/* HEARTS */
+/* ===== MAGIC HEARTS ===== */
 .heart{
   position:fixed;
   bottom:-20px;
-  color:red;
-  font-size:20px;
-  animation:float 6s linear infinite;
+  font-size:18px;
+  animation:float 7s linear infinite;
 }
 @keyframes float{
   to{transform:translateY(-120vh);opacity:0}
 }
 
-/* CHAT */
-.msg{
-  background:rgba(255,255,255,.2);
-  padding:10px 15px;
-  border-radius:15px;
-  margin:8px;
-  max-width:80%;
+/* ===== TEXT STYLE ===== */
+.soft{
+  text-align:center;
+  max-width:85%;
+  line-height:1.6;
+  opacity:.95;
 }
-.left{align-self:flex-start}
-.right{align-self:flex-end;background:rgba(255,255,255,.35)}
+.hint{
+  margin-top:30px;
+  font-size:14px;
+  opacity:.8;
+}
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 : LOCK -->
-<div class="page" id="page1">
-  <h2>Enter Our Date ❤️</h2>
+<!-- ===== LOCK WORLD ===== -->
+<div class="world" id="lock">
+  <h2>Enter our date ❤️</h2>
   <input type="password" id="pass" placeholder="DDMMYYYY">
   <button onclick="unlock()">Unlock</button>
 </div>
 
-<!-- KISS -->
+<!-- ===== KISS ===== -->
 <div id="kiss">UMMAAA 💋💋</div>
 
-<!-- PAGE 2 : LETTER -->
-<div class="page hidden" id="page2">
-  <h2>Touch the letter 💌</h2>
-  <div class="envelope" onclick="openLetter()">💌</div>
-  <div class="letter" id="letter">
-    <h3>My Love ❤️</h3>
-    <p>
-      Meghana,<br><br>
-      Even when you are not near me,  
-      my heart knows exactly where you are.  
-      01-03-2025 is the day my forever began.<br><br>
-      No distance, no silence, no days apart  
-      can ever change what I feel for you.
-    </p>
-    <br>
-    <strong>Faithfully yours,<br>shuttumaniii ❤️</strong>
-  </div>
-  <p style="margin-top:20px">Swipe ⬇️</p>
+<!-- ===== BENCH WORLD ===== -->
+<div class="world" id="bench" style="transform:translateX(100vw)">
+  <h2>The bench we shared</h2>
+  <div class="bench"></div>
+  <p class="soft" style="margin-top:25px">
+    In a room full of people,<br>
+    we found a quiet place<br>
+    just by sitting together.
+  </p>
+  <p class="hint">Swipe ➡️ or ⬇️</p>
 </div>
 
-<!-- PAGE 3 : DIARY -->
-<div class="page hidden" id="page3">
-  <h2>📖 My Daily Feelings</h2>
-
-  <!-- COPY THIS BLOCK DAILY -->
-  <div class="msg left">
-    <strong>01-03-2025</strong><br>
-    Today my heart chose you again.
-  </div>
-
-  <div class="msg left">
-    <strong>Today</strong><br>
-    I wish you could feel how much I miss you.
-  </div>
-
-  <p>Swipe ➡️</p>
+<!-- ===== LETTER WORLD (PLACEHOLDER) ===== -->
+<div class="world" id="letter" style="transform:translateY(100vh)">
+  <h2>Unsaid things 💌</h2>
+  <p class="soft">
+    Some words were never spoken in class.<br>
+    They waited here.
+  </p>
+  <p class="hint">More magic coming…</p>
 </div>
 
-<!-- PAGE 4 : CHAT -->
-<div class="page hidden" id="page4">
-  <h2>💬 From My Heart</h2>
-
-  <div class="msg left">I thought of you today.</div>
-  <div class="msg left">I smiled without knowing why.</div>
-
-  <!-- HER REPLY SPACE -->
-  <div class="msg right">❤️</div>
-
-  <p>Swipe ⬅️ or ⬆️</p>
+<!-- ===== DIARY WORLD (PLACEHOLDER) ===== -->
+<div class="world" id="diary" style="transform:translateX(-100vw)">
+  <h2>Daily feelings 📖</h2>
+  <p class="soft">
+    This is where days will be written.<br>
+    Slowly. Honestly.
+  </p>
+  <p class="hint">This will grow every day</p>
 </div>
 
 <script>
-let current=1;
+let current="lock";
 let startX,startY;
 
 function unlock(){
@@ -169,21 +157,23 @@ function unlock(){
     kiss.style.display="flex";
     setTimeout(()=>{
       kiss.style.display="none";
-      show(2);
+      move("bench");
       hearts();
     },2000);
   }else alert("Wrong password ❤️");
 }
 
-function show(n){
-  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-  document.getElementById("page"+n).classList.remove("hidden");
-  current=n;
-}
-
-function openLetter(){
-  document.querySelector(".envelope").style.display="none";
-  letter.style.display="block";
+function move(target){
+  const pos={
+    lock:{x:0,y:0},
+    bench:{x:0,y:0},
+    letter:{x:0,y:100},
+    diary:{x:-100,y:0}
+  };
+  document.querySelectorAll(".world").forEach(w=>{
+    w.style.transform=`translate(${pos[target]?.x||100}vw,${pos[target]?.y||0}vh)`;
+  });
+  current=target;
 }
 
 document.addEventListener("touchstart",e=>{
@@ -194,11 +184,12 @@ document.addEventListener("touchstart",e=>{
 document.addEventListener("touchend",e=>{
   let dx=e.changedTouches[0].clientX-startX;
   let dy=e.changedTouches[0].clientY-startY;
-  if(Math.abs(dx)>50){
-    if(dx<0 && current<4) show(current+1);
-    if(dx>0 && current>1) show(current-1);
+
+  if(current==="bench"){
+    if(dx<-60) move("diary");
+    if(dy<-60) move("letter");
   }
-  if(dy< -50 && current<4) show(current+1);
+  if(current!=="bench" && dx>60) move("bench");
 });
 
 function hearts(){
@@ -208,8 +199,8 @@ function hearts(){
     h.innerHTML="❤️";
     h.style.left=Math.random()*100+"vw";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-  },500);
+    setTimeout(()=>h.remove(),7000);
+  },600);
 }
 </script>
 
