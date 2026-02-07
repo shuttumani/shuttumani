@@ -1,181 +1,163 @@
 index.html
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Georgia', serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Georgia',serif;}
 body{
-  background:black;
-  color:white;
+  background:#000;
+  color:#fff;
+  height:100vh;
   overflow:hidden;
 }
 
-/* LOCK SCREEN */
+/* Lock Screen */
 #lockScreen{
   position:fixed;
   inset:0;
-  background:black;
+  background:linear-gradient(180deg,#000,#1a001a);
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
 }
 
-#lockScreen h1{
-  font-size:40px;
-  margin-bottom:10px;
-}
-
-#lockScreen p{
-  opacity:0.7;
+/* Popup text */
+#popup{
+  font-size:22px;
+  opacity:0;
+  animation:popupFade 5s forwards;
   margin-bottom:20px;
 }
 
-#lockInput{
-  padding:12px;
-  font-size:18px;
-  background:none;
-  border:1px solid white;
-  color:white;
-  text-align:center;
-  width:160px;
+@keyframes popupFade{
+  0%{opacity:0;transform:scale(0.8)}
+  20%{opacity:1;transform:scale(1)}
+  80%{opacity:1}
+  100%{opacity:0}
 }
 
-/* MAIN PAGE */
-#main{
-  display:none;
-  height:100vh;
-  text-align:center;
-  padding-top:100px;
+/* Hearts */
+.heart{
+  position:absolute;
+  color:#ff4d6d;
+  font-size:16px;
+  animation:float 6s linear infinite;
 }
 
-#letter{
-  font-size:80px;
+@keyframes float{
+  from{transform:translateY(100vh);opacity:1}
+  to{transform:translateY(-10vh);opacity:0}
+}
+
+/* Envelope */
+#envelope{
+  width:140px;
+  height:90px;
+  background:#8b0000;
+  margin-top:30px;
+  position:relative;
   cursor:pointer;
+  border-radius:6px;
+}
+#envelope::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:50%;
+  background:#a00000;
+  clip-path:polygon(0 0,50% 60%,100% 0);
 }
 
-/* LETTER PAGE */
+/* Letter Page */
 #letterPage{
-  display:none;
   position:fixed;
   inset:0;
-  background:black;
-  padding:20px;
+  background:#0b0010;
+  display:none;
+  flex-direction:column;
 }
 
 #letterContent{
-  height:85vh;
+  padding:20px;
   overflow-y:auto;
+  flex:1;
   line-height:1.7;
-  font-size:18px;
+  font-size:16px;
 }
 
 #backBtn{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:10px 20px;
-  border:1px solid white;
+  padding:12px;
+  background:#300020;
+  text-align:center;
   cursor:pointer;
 }
 
-/* SWIPE DOWN INFO */
-#info{
-  display:none;
-  margin-top:40px;
-  opacity:0.7;
+/* Scrollbar */
+#letterContent::-webkit-scrollbar{
+  width:5px;
+}
+#letterContent::-webkit-scrollbar-thumb{
+  background:#ff4d6d;
 }
 </style>
 </head>
 
 <body>
 
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="https://files.catbox.moe/8y1n6v.mp3" type="audio/mpeg">
+</audio>
+
 <!-- LOCK SCREEN -->
 <div id="lockScreen">
-  <h1 id="date"></h1>
-  <p>Enter Password</p>
-  <input id="lockInput" placeholder="••••••••">
-</div>
-
-<!-- MAIN -->
-<div id="main">
-  <div id="letter">💌</div>
-  <div id="info">
-    <p id="today"></p>
-    <p>Countdown : •• ••</p>
-  </div>
+  <div id="popup">ammede ponnu araaaa 💋</div>
+  <div id="envelope"></div>
 </div>
 
 <!-- LETTER PAGE -->
 <div id="letterPage">
   <div id="letterContent">
-    <p>
-    orapa pinne ammede ponnu aradaaaa 😘💗  
-    exam kazhinju graduation nu enthavavo kalikan poovanell ninak ath scn avum ennu enik ariyaaaa  
-    bhaki allavarum adipoli ayit avide erikumbo enthe ponnu matharam blaa blaaa blaaaa enthaleeee nja  
-    Avide annelum ninthe thanne alledaaaaa enthokke aleeeee eni korach serious ayit paraya atheeee  
-    enik ninne bhayangara ishtam a neee yes parayo ennu arayilla ennallum enik entho parayanam ennu thooni  
-    neee chilappo enne angane kandit undavilla ennallum njaan eth eni paranjillel eni annelum eth parayumbo  
-    annu paranjal njaan yes paranjene ennu nee paranja enik veshmam avummm  
-    atha eppo parayane enik ninne bhayangara ishtam a "I Love You❤️"  
-    Nee ethinu rply thannolu chilappo eth kelkumbo nee ennod eni mindi ennu varilla  
-    angane onnum venda tta ishtam allel ath paranja mathi scn ella  
-    eppo ishtam annu paranju ennu vech kozhapam ellata nammal pazhayath pole thanne veliya vethasam onnum ella  
-    nammal thammil ethra kollam ayit ariyaaa pinne angottum engottum ariyathathu onnum ellanu  
-    Ninak enne ishtam anno ennu arayilla eni eth parayumbozhano athine kurich aloikane ennu polum arayilla  
-    enth okke annelum neee enthe koode indel adipoli avum
-    </p>
+eth nee appozha vayika ennu arayillla Appozhayalum vayikulooo ninthe first Valentine's Day annu ennu okke ariyaaa nee annu tution nu varo ennu polum arayilla ethu Azhuthumbo pinne ollathu exam okke alle ath Kazhinja kanan polum pattillalo appo enth cheyyum nee vallathum aloichu vechit indooo vaveee enthe oru idea il korach okkee indu ath Njan parayaneee pinne kali akkanda ketta Njan romantic alla ennu paranju nee enthe eduth ethuuu matte parayana oru dhivasam varum daaaa nokkikooo pinne entha sugalle engane okke nadanna mathiyooo vellapozhum enne kurich okke ortholu tta marannu povaruthu nammal mindandu aya entha indava ponnah enthayalum nammal kanum enganelum okke enthelum mindum athokke orapa pinne ammede ponnu aradaaaa 😘🩷❤️💋🫂
+
+exam kazhinju graduation nu enthavavo kalikan poovanel ninak ath scn avum ennu enik ariyaaaaa bhaki Allavarum adipoli ayit avide erikumbo enthe ponnu matharam blaa blaaa blaaaa enthaleeeee nja. Avide annelum ninthe thanne alledaaaaaa enthokke aleeeeee eni korach serious ayit paraya
+
+Atheeee enik ninne bhayankara ishtam a neee…  
+I LOVE YOU ❤️
   </div>
-  <div id="backBtn">Back</div>
+  <div id="backBtn">← Back</div>
 </div>
 
 <script>
-const lockInput = document.getElementById("lockInput");
-const lockScreen = document.getElementById("lockScreen");
-const main = document.getElementById("main");
-const letter = document.getElementById("letter");
-const letterPage = document.getElementById("letterPage");
-const backBtn = document.getElementById("backBtn");
-const info = document.getElementById("info");
+// Hearts generator
+for(let i=0;i<20;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=4+Math.random()*4+"s";
+  document.body.appendChild(h);
+}
 
-lockInput.addEventListener("input",()=>{
-  if(lockInput.value==="01032025"){
-    lockScreen.style.display="none";
-    main.style.display="block";
-  }
-});
+// Envelope click
+document.getElementById("envelope").onclick=()=>{
+  document.getElementById("lockScreen").style.display="none";
+  document.getElementById("letterPage").style.display="flex";
+  document.getElementById("music").play();
+}
 
-letter.onclick=()=>{
-  main.style.display="none";
-  letterPage.style.display="block";
-};
-
-backBtn.onclick=()=>{
-  letterPage.style.display="none";
-  main.style.display="block";
-};
-
-let startY=0;
-main.addEventListener("touchstart",e=>startY=e.touches[0].clientY);
-main.addEventListener("touchend",e=>{
-  if(startY - e.changedTouches[0].clientY > 50){
-    info.style.display="block";
-  }
-});
-
-document.getElementById("date").innerText=new Date().toDateString();
-document.getElementById("today").innerText=new Date().toDateString();
+// Back
+document.getElementById("backBtn").onclick=()=>{
+  document.getElementById("letterPage").style.display="none";
+  document.getElementById("lockScreen").style.display="flex";
+}
 </script>
 
 </body>
