@@ -126,6 +126,47 @@ body{background:black;color:white;height:100vh;overflow:hidden}
   cursor: pointer;
   z-index: 9999;
   }
+  #countdownPage {
+  padding: 20px;
+  background: linear-gradient(#000, #12000a);
+  overflow-y: auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.timer {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.memories {
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.memory {
+  margin: 20px 0;
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+.memory:nth-child(2){animation-delay:.4s}
+.memory:nth-child(3){animation-delay:.8s}
+.memory:nth-child(4){animation-delay:1.2s}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.ending {
+  margin-top: 30px;
+  text-align: center;
+  font-style: italic;
+}
   
 </style>
 </head>
@@ -166,6 +207,46 @@ body{background:black;color:white;height:100vh;overflow:hidden}
 <button id="backBtn" onclick="goBack()">← Back</button>
 
 </div>
+<!-- STEP 2 : COUNTDOWN PAGE -->
+<div id="countdownPage" class="page" style="display:none;">
+  <h2 class="title">❤️ Our Little Forever Moments ❤️</h2>
+
+  <div id="timer" class="timer"></div>
+
+  <div class="memories">
+    <p>Time keeps moving… but some moments stay 🤍</p>
+    
+</div>
+<!-- STEP 2 : COUNTDOWN PAGE -->
+<div id="countdownPage" class="page" style="display:none;">
+  <h2 class="title">❤️ Our Little Forever Moments ❤️</h2>
+
+  <div id="timer" class="timer"></div>
+
+  <div class="memories">
+    <p>Time keeps moving… but some moments stay 🤍</p>
+  </div>
+    <div class="memory">
+      ✨ <b>01 • 03 • 2025</b><br>
+      The day my heart finally heard what it was waiting for ❤️
+    </div>
+
+    <div class="memory">
+      ✨ <b>05 • 06 • 2023</b><br>
+      A normal tuition day that quietly changed everything
+    </div>
+
+    <div class="memory">
+      ✨ <b>20 • 07 • 2010</b><br>
+      The day the world became more beautiful 🌸
+    </div>
+
+    <p class="ending">
+      Every second above is not just time passing…<br>
+      it’s us, moving forward, together 🫂❤️
+    </p>
+  </div>
+</div>
 
 
 <script>
@@ -201,6 +282,38 @@ function goBack(){
   document.getElementById("letterPage").style.display = "none";
   document.getElementById("mainPage").style.display = "block";
   }
+  function updateCountdown() {
+  const startDate = new Date("2025-03-01T00:00:00");
+  const now = new Date();
+  const diff = now - startDate;
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor(diff / (1000*60*60)) % 24;
+  const minutes = Math.floor(diff / (1000*60)) % 60;
+  const seconds = Math.floor(diff / 1000) % 60;
+
+  document.getElementById("timer").innerHTML =
+    `⏳ Together for<br>
+     <b>${days}</b> days
+     <b>${hours}</b> hours
+     <b>${minutes}</b> minutes
+     <b>${seconds}</b> seconds`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+  let startY = 0;
+
+document.addEventListener("touchstart", e => {
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+  if (startY - e.changedTouches[0].clientY > 80) {
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("countdownPage").style.display = "block";
+  }
+});
   
 </script>
 
