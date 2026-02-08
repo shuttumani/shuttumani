@@ -93,7 +93,7 @@ ul{margin-top:20px;}
 
 <body>
 
-<audio id="music" src="song.mp3" loop></audio>
+<audio id="music" src="music.mp3" loop></audio>
 
 <!-- STEP 1 -->
 <div id="lock" class="screen active">
