@@ -113,6 +113,20 @@ body{background:black;color:white;height:100vh;overflow:hidden}
   text-align:center;
   background:#300020;
 }
+  #backBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 16px;
+  background: rgba(255, 0, 100, 0.8);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 9999;
+  }
+  
 </style>
 </head>
 
@@ -149,6 +163,7 @@ body{background:black;color:white;height:100vh;overflow:hidden}
 <p style="text-align:center;font-size:24px;margin-top:30px;">
 <strong>Appo veendum paraya I LOVE YOU ❤️</strong>
 </p>
+<button id="backBtn" onclick="goBack()">← Back</button>
 
 </div>
 
@@ -182,6 +197,11 @@ function goBack(){
   document.getElementById("letter").style.display="none";
   document.getElementById("main").style.display="flex";
 }
+  function goBack() {
+  document.getElementById("letterPage").style.display = "none";
+  document.getElementById("mainPage").style.display = "block";
+  }
+  
 </script>
 
 </body>
