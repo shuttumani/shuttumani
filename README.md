@@ -247,6 +247,24 @@ aloichu okke eni paranjolu tta.
     </p>
   </div>
 </div>
+<button onclick="show('reply')" style="margin-top:30px;">
+  Write me a reply 💗
+</button>
+
+<!-- 📝 STEP 6 REPLY FORM -->
+<div id="reply" class="page scroll">
+  <h2 style="text-align:center;">💌 Your reply</h2>
+  <p style="text-align:center;">Write anything you feel. I’ll read it 🤍</p>
+
+  <iframe 
+    src="https://docs.google.com/forms/d/e/1FAIpQLSc1JncNbHTVKlZooN4NaDi_Ov08J6Q1g-v5PMHlNnZ_mcGp6A/viewform?embedded=true"
+    width="100%" 
+    height="800" 
+    frameborder="0">
+    Loading…
+  </iframe>
+</div>
+
 
 <!-- 5 DAILY DIARY -->
 <div class="section" id="diary">
