@@ -87,6 +87,37 @@ Nee ethinu rply thannolu Chilappo eth kelkumbo nee ennod eni mindi ennu varilla 
 Appo veendum paraya I LOVE YOU ❤️
 
 </div>
+<button onclick="showCountdown()" 
+style="margin:20px auto; display:block; padding:12px 25px; border:none; border-radius:25px; background:#ff4d88; color:white; font-size:16px;">
+Our Date 💞
+</button>
+<div id="countdownPage" style="display:none; text-align:center; padding:40px 20px;">
+
+<h2 style="color:#ff4d88;">We Committed On</h2>
+<h1>01 • 03 • 2025</h1>
+
+<div id="timer" style="font-size:22px; margin:20px 0;"></div>
+
+<div style="margin-top:30px; text-align:left; max-width:500px; margin-left:auto; margin-right:auto; line-height:1.9; font-size:15px;">
+
+<p>💗 01-03-2025 — The Day We Became “Us”  
+This was not just a date on the calendar. This was the day feelings turned into something real. The day we stopped standing on two different sides and slowly started walking in the same direction. From this day, your happiness became my peace, your sadness became my concern, and your presence became my comfort. 01-03-2025 is not just when we committed… it is the day my heart officially chose you.</p>
+
+<p>💗 05-06-2023 — The First Time I Saw You  
+I still don’t know if you noticed me that day in tuition class… but I remember noticing you. Maybe it was just another normal day for the world, but for me, it quietly became special. I didn’t know that the girl sitting there would later become someone who would change my thoughts, my feelings, and my future. That first sight was simple… but it was the beginning of everything.</p>
+
+<p>💗 20-07-2010 — The Day the World Became Beautiful  
+Long before I knew you… before tuition, before conversations, before feelings… this was the day you came into this world. And I sometimes think how lucky this world is to have you in it. Because without this day, there would be no smiles from you, no talks with you, no “us.” 20-07-2010 is special not just because you were born… but because that’s the day the person I would one day love started her journey.</p>
+
+</div>
+
+
+<button onclick="goBackToLetter()" 
+style="margin-top:30px; padding:10px 20px; border:none; border-radius:20px; background:#222; color:white;">
+Back ❤️
+</button>
+
+</div>
 
 
 <audio id="bgMusic" loop>
@@ -120,7 +151,31 @@ setInterval(function(){
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(),5000);
 },800);
-  
+function showCountdown(){
+  document.getElementById("letterPage").style.display="none";
+  document.getElementById("countdownPage").style.display="block";
+}
+
+function goBackToLetter(){
+  document.getElementById("countdownPage").style.display="none";
+  document.getElementById("letterPage").style.display="block";
+}
+
+var targetDate = new Date("March 01, 2025 00:00:00").getTime();
+
+setInterval(function(){
+  var now = new Date().getTime();
+  var distance = now - targetDate;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("timer").innerHTML =
+    days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds";
+}, 1000);
+
 </script>
 
 </body>
