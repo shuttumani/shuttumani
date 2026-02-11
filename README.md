@@ -1062,16 +1062,10 @@ index.html
 </audio>
 
 <!-- LOCK PAGE -->
-<div id="lockPage" class="page active">
-  <div class="center">
-    <h1>shuttumani 💋</h1>
-    <input type="password" id="passwordInput" placeholder="Enter date">
-    <button onclick="checkPassword()">Unlock</button>
-  </div>
-</div>
+
 
 <!-- ENVELOPE PAGE -->
-<div id="envelopePage" class="page">
+<div id="envelopePage" class="page active">
   <div class="center">
     <h2 style="margin-bottom:10px;">Love Letter 💌</h2>
 
@@ -1351,19 +1345,7 @@ index.html
     if(page) page.classList.add('active');
     if(page && page.classList.contains("scrollPage")) page.scrollTop = 0;
   }
-function checkPassword(){
-  const raw = document.getElementById("passwordInput").value || "";
 
-  // convert "01-03-2025" or "01032025" both to 01032025
-  const entered = raw.replace(/\D/g, "");
-
-  if(entered === "01032025"){
-    show("envelopePage");
-// make sure envelopePage exists
-  } else {
-    alert("Wrong date 💔");
-  }
-}
 
   function openLetter(){
     const env = document.querySelector(".newEnvelope");
