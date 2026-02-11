@@ -351,6 +351,395 @@ index.html
   font-size:14px;
   opacity:.9;
                     }
+  /* ===== CINEMATIC SURPRISE (BIG) ===== */
+.surpriseHero{
+  position:relative;
+  overflow:hidden;
+  padding-bottom:30px;
+}
+
+.aurora{
+  position:absolute; inset:-40px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,77,136,.18), transparent 55%),
+    radial-gradient(circle at 85% 25%, rgba(58,160,255,.14), transparent 58%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(circle at 30% 70%, rgba(255,77,136,.10), transparent 55%),
+    radial-gradient(circle at 70% 65%, rgba(58,160,255,.10), transparent 55%);
+  filter: blur(12px) saturate(1.2);
+  animation: auroraMove 8s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes auroraMove{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(18px) scale(1.03);}
+}
+
+.starfield{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 10% 30%, rgba(255,255,255,.22), transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,.14), transparent 40%),
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,.18), transparent 45%),
+    radial-gradient(circle at 85% 60%, rgba(255,255,255,.12), transparent 42%),
+    radial-gradient(circle at 55% 55%, rgba(255,255,255,.08), transparent 50%);
+  opacity:.9;
+  animation: starDrift 10s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes starDrift{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(10px);}
+}
+
+.orb{
+  position:absolute;
+  width:220px; height:220px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,77,136,.18), transparent 65%);
+  filter: blur(1px);
+  opacity:.7;
+  animation: orbFloat 7s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+.orb.o1{left:-40px; top:120px;}
+.orb.o2{right:-60px; top:220px; background: radial-gradient(circle, rgba(58,160,255,.16), transparent 65%); animation-delay:.6s;}
+.orb.o3{left:40%; bottom:-90px; width:260px; height:260px; background: radial-gradient(circle, rgba(255,255,255,.08), transparent 70%); animation-delay:1.2s;}
+
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-18px) scale(1.04);}
+}
+
+.heroCard{
+  width:min(900px, 92vw);
+  margin:0 auto;
+  border-radius:20px;
+  border:1px solid rgba(255,77,136,.22);
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255,77,136,.12), transparent 60%),
+    radial-gradient(circle at 70% 80%, rgba(58,160,255,.08), transparent 55%),
+    #0f0f0f;
+  box-shadow: 0 0 50px rgba(255,77,136,.10);
+  padding:18px;
+  position:relative;
+  z-index:2;
+}
+
+.bigTitle{
+  margin:6px 0 4px;
+  font-size:26px;
+  color:#ff4d88;
+  letter-spacing:.3px;
+}
+
+.subText{
+  opacity:.9;
+  margin:0;
+  line-height:1.65;
+}
+
+.giftStage{
+  margin:18px auto 6px;
+  width:220px;
+  height:220px;
+  position:relative;
+  perspective: 900px;
+}
+
+.gift3d{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:88px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+  transform-style:preserve-3d;
+  animation: giftHover 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 14px 24px rgba(0,0,0,.45));
+}
+@keyframes giftHover{
+  0%,100%{transform:translateY(0) rotateX(6deg) rotateZ(-2deg);}
+  50%{transform:translateY(-12px) rotateX(10deg) rotateZ(2deg);}
+}
+.gift3d.open{
+  animation:none;
+  transform: translateY(-6px) rotateX(30deg) rotateZ(0deg) scale(1.02);
+}
+
+.hint{
+  opacity:.8;
+  margin:6px 0 0;
+  font-size:14px;
+}
+
+.secretLink{
+  margin-top:12px;
+  display:inline-block;
+  font-size:13px;
+  opacity:.75;
+  text-decoration:underline;
+  cursor:pointer;
+}
+/* ===== CINEMATIC SURPRISE (BIG) ===== */
+.surpriseHero{
+  position:relative;
+  overflow:hidden;
+  padding-bottom:30px;
+}
+
+.aurora{
+  position:absolute; inset:-40px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,77,136,.18), transparent 55%),
+    radial-gradient(circle at 85% 25%, rgba(58,160,255,.14), transparent 58%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(circle at 30% 70%, rgba(255,77,136,.10), transparent 55%),
+    radial-gradient(circle at 70% 65%, rgba(58,160,255,.10), transparent 55%);
+  filter: blur(12px) saturate(1.2);
+  animation: auroraMove 8s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes auroraMove{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(18px) scale(1.03);}
+}
+
+.starfield{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 10% 30%, rgba(255,255,255,.22), transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,.14), transparent 40%),
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,.18), transparent 45%),
+    radial-gradient(circle at 85% 60%, rgba(255,255,255,.12), transparent 42%),
+    radial-gradient(circle at 55% 55%, rgba(255,255,255,.08), transparent 50%);
+  opacity:.9;
+  animation: starDrift 10s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes starDrift{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(10px);}
+}
+
+.orb{
+  position:absolute;
+  width:220px; height:220px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,77,136,.18), transparent 65%);
+  filter: blur(1px);
+  opacity:.7;
+  animation: orbFloat 7s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+.orb.o1{left:-40px; top:120px;}
+.orb.o2{right:-60px; top:220px; background: radial-gradient(circle, rgba(58,160,255,.16), transparent 65%); animation-delay:.6s;}
+.orb.o3{left:40%; bottom:-90px; width:260px; height:260px; background: radial-gradient(circle, rgba(255,255,255,.08), transparent 70%); animation-delay:1.2s;}
+
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-18px) scale(1.04);}
+}
+
+.heroCard{
+  width:min(900px, 92vw);
+  margin:0 auto;
+  border-radius:20px;
+  border:1px solid rgba(255,77,136,.22);
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255,77,136,.12), transparent 60%),
+    radial-gradient(circle at 70% 80%, rgba(58,160,255,.08), transparent 55%),
+    #0f0f0f;
+  box-shadow: 0 0 50px rgba(255,77,136,.10);
+  padding:18px;
+  position:relative;
+  z-index:2;
+}
+
+.bigTitle{
+  margin:6px 0 4px;
+  font-size:26px;
+  color:#ff4d88;
+  letter-spacing:.3px;
+}
+
+.subText{
+  opacity:.9;
+  margin:0;
+  line-height:1.65;
+}
+
+.giftStage{
+  margin:18px auto 6px;
+  width:220px;
+  height:220px;
+  position:relative;
+  perspective: 900px;
+}
+
+.gift3d{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:88px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+  transform-style:preserve-3d;
+  animation: giftHover 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 14px 24px rgba(0,0,0,.45));
+}
+@keyframes giftHover{
+  0%,100%{transform:translateY(0) rotateX(6deg) rotateZ(-2deg);}
+  50%{transform:translateY(-12px) rotateX(10deg) rotateZ(2deg);}
+}
+.gift3d.open{
+  animation:none;
+  transform: translateY(-6px) rotateX(30deg) rotateZ(0deg) scale(1.02);
+}
+
+.hint{
+  opacity:.8;
+  margin:6px 0 0;
+  font-size:14px;
+}
+
+.secretLink{
+  margin-top:12px;
+  display:inline-block;
+  font-size:13px;
+  opacity:.75;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* ===== FULLSCREEN CINEMATIC MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  z-index:9998;
+}
+.modal.show{display:block;}
+
+.modalBg{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.68);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modalPanel{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(920px, 92vw);
+  max-height:86vh;
+  overflow:auto;
+  border-radius:22px;
+  border:1px solid rgba(255,77,136,.25);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,77,136,.18), transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(58,160,255,.12), transparent 58%),
+    #0f0f0f;
+  box-shadow: 0 30px 80px rgba(0,0,0,.55);
+  padding:18px 16px 16px;
+}
+
+.modalTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.closeBtn{
+  background:#222;
+  border:1px solid #333;
+  color:#fff;
+  border-radius:999px;
+  padding:10px 14px;
+  font-size:14px;
+}
+
+.typeBox{
+  border:1px solid #222;
+  background:#111;
+  border-radius:16px;
+  padding:14px;
+  line-height:1.9;
+  text-align:left;
+  opacity:.96;
+}
+.cursor{
+  display:inline-block;
+  margin-left:4px;
+  width:10px;
+  animation: blink .8s infinite;
+}
+@keyframes blink{0%,100%{opacity:0;}50%{opacity:1;}}
+
+.promiseGrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:12px;
+}
+@media (min-width:720px){
+  .promiseGrid{grid-template-columns:1fr 1fr;}
+}
+.promiseCard{
+  background:#0f0f0f;
+  border:1px solid #222;
+  border-radius:16px;
+  padding:12px 14px;
+  line-height:1.75;
+}
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#111;
+  border:1px solid #2a2a2a;
+  font-size:13px;
+  opacity:.9;
+  margin-bottom:8px;
+}
+.promiseCard b{color:#ff4d88;}
+
+.finalLine{
+  text-align:center;
+  margin-top:14px;
+  font-size:16px;
+  opacity:.95;
+}
+
+/* confetti hearts */
+.confetti{
+  position:fixed;
+  top:-30px;
+  z-index:9999;
+  pointer-events:none;
+  animation: fall linear forwards;
+  opacity:.9;
+  white-space:nowrap;
+}
+@keyframes fall{
+  from{transform:translateY(-40px) rotate(0deg);}
+  to{transform:translateY(110vh) rotate(360deg);}
+  }
+
 </style>
 </head>
 
@@ -582,48 +971,77 @@ index.html
   </div>
 </div>
 </div>
-<div id="surprisePage" class="page scrollPage">
-  <h2 class="title" style="color:#ff4d88;">A Small Surprise ✨</h2>
+<div id="surprisePage" class="page scrollPage surpriseHero">
+  <div class="aurora"></div>
+  <div class="starfield"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
 
-  <div class="surpriseBox">
-    <p style="opacity:.9;margin-top:0;">
-      I kept something special for you here…  
-      Tap the gift 🎁
+  <div class="heroCard">
+    <div class="bigTitle">A Surprise Only For You ✨</div>
+    <p class="subText">
+      This is not a normal page… it’s a small universe I made just for you.  
+      Tap the gift slowly… and read with your heart. 💗
     </p>
 
-    <div class="gift" onclick="openSurprise()">🎁</div>
-
-    <div id="hiddenSurprise" class="revealText">
-      <div class="sparkle">✨💖✨</div>
-
-      <p>
-        I don’t know how the future will look…  
-        but I know one thing:  
-        you became a very special part of my heart.
-      </p>
-
-      <p>
-        Even on days when we don’t talk much,  
-        you’ll still be in my thoughts.  
-        You are my comfort, my peace, my favourite feeling. 💗
-      </p>
-
-      <div class="loveRow">
-        <div class="loveChip">You are my peace 🌙</div>
-        <div class="loveChip">You are my comfort 💗</div>
-        <div class="loveChip">You are my happiness 🥹</div>
-      </div>
-
-      <p style="margin-top:12px;">
-        And one more thing…  
-        no matter what… I’m proud of you. Always. ❤️
-      </p>
-
-      <div class="sparkle">✨ I Love You ✨</div>
+    <div class="giftStage">
+      <div id="gift3d" class="gift3d" onclick="openCinematicSurprise()">🎁</div>
     </div>
 
-    <div style="margin-top:18px;">
+    <p class="hint">Tap 🎁 to open the cinematic letter.</p>
+
+    <div class="secretLink" onclick="secretLoveMode()">psst… try this secret ✨</div>
+
+    <div style="margin-top:14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
       <button class="btnDark" onclick="show('optionsPage')">Back 🌙</button>
+      <button onclick="show('diaryPage')">Diary 📖</button>
+      <!-- Keep this if you already have Step 10 page id -->
+      <!-- <button class="btnDark" onclick="show('loveFloodPage')">Next 💖</button> -->
+    </div>
+  </div>
+
+  <!-- CINEMATIC MODAL -->
+  <div id="cinModal" class="modal">
+    <div class="modalBg" onclick="closeCinematicSurprise()"></div>
+
+    <div class="modalPanel">
+      <div class="modalTop">
+        <div style="color:#ff4d88; font-weight:bold;">💌 For My Suttumani</div>
+        <button class="closeBtn" onclick="closeCinematicSurprise()">Close ✖</button>
+      </div>
+
+      <div class="typeBox">
+        <div id="cinType"></div><span class="cursor">|</span>
+      </div>
+
+      <div class="promiseGrid">
+        <div class="promiseCard">
+          <div class="badge">🌙 Promise 1</div>
+          <b>I’ll be your calm</b> — even when life feels loud.
+        </div>
+        <div class="promiseCard">
+          <div class="badge">💗 Promise 2</div>
+          <b>I’ll choose you</b> — not only on easy days… on every day.
+        </div>
+        <div class="promiseCard">
+          <div class="badge">🫂 Promise 3</div>
+          <b>I’ll be your safe place</b> — where you can be fully you.
+        </div>
+        <div class="promiseCard">
+          <div class="badge">💍 Promise 4</div>
+          <b>I’ll dream with you</b> — our future, our home, our “one day”.
+        </div>
+      </div>
+
+      <div class="finalLine">
+        Always remember… <b style="color:#ff4d88;">I love you, suttumani</b> 💋
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button onclick="spawnLoveConfetti(80)">More Love 💖</button>
+        <button class="btnDark" onclick="closeCinematicSurprise()">Back</button>
+      </div>
     </div>
   </div>
 </div>
@@ -707,6 +1125,75 @@ setInterval(()=>{
     grid.appendChild(card);
   }
 })();
+let cinTyped = false;
+
+function openCinematicSurprise(){
+  const gift = document.getElementById("gift3d");
+  if(gift) gift.classList.add("open");
+
+  // little “heartbeat” feel (visual)
+  spawnLoveConfetti(35);
+
+  const modal = document.getElementById("cinModal");
+  if(modal) modal.classList.add("show");
+
+  if(!cinTyped){
+    cinTyped = true;
+    typeWriterCinematic(
+`Hey ponnahhh… 💗
+
+If the world ever asks me what my favourite place is…
+I’ll say: it’s wherever YOU are.
+
+Some people become memories…
+but you became my comfort, my peace, my “home” feeling.
+
+And yes… I’m serious:
+I LOVE YOU. Always. ❤️`,
+      "cinType",
+      18
+    );
+  }
+}
+
+function closeCinematicSurprise(){
+  const modal = document.getElementById("cinModal");
+  if(modal) modal.classList.remove("show");
+}
+
+function typeWriterCinematic(text, elId, speed){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  el.textContent = "";
+  let i = 0;
+  const timer = setInterval(()=>{
+    el.textContent += text[i] || "";
+    i++;
+    if(i >= text.length) clearInterval(timer);
+  }, speed);
+}
+
+function spawnLoveConfetti(count){
+  const emojis = ["❤️","💗","💖","💞","💘","💓","💋"];
+  for(let i=0;i<count;i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left = Math.random()*100 + "vw";
+    c.style.fontSize = (12 + Math.random()*16) + "px";
+    c.style.animationDuration = (2.2 + Math.random()*2.3) + "s";
+    c.style.opacity = (0.55 + Math.random()*0.4).toFixed(2);
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 5200);
+  }
+}
+
+/* secret mode: tiny extra magic */
+function secretLoveMode(){
+  spawnLoveConfetti(120);
+  const msg = "✨ Secret unlocked: extra love for my suttumani ✨";
+  alert(msg);
+}
 </script>
 
 </body>
