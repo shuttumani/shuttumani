@@ -175,10 +175,17 @@ function checkPassword() {
   var input = document.getElementById("passwordInput").value;
 
   if (input === "01 03 2025") {
+
+    var music = document.getElementById("bgMusic");
+    music.play();
+
     show('envelopePage');
+
   } else {
     alert("Wrong password 💔");
   }
+}
+  
 }
 function openEnvelope() {
   var env = document.querySelector(".envelope");
