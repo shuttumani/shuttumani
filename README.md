@@ -88,37 +88,38 @@ Nee ethinu rply thannolu Chilappo eth kelkumbo nee ennod eni mindi ennu varilla 
 Appo veendum paraya I LOVE YOU ❤️
 
 </div>
-<button onclick="showCountdown()" 
-style="margin:20px auto; display:block; padding:12px 25px; border:none; border-radius:25px; background:#ff4d88; color:white; font-size:16px;">
-Our Date 💞
-</button>
-<div id="countdownPage" style="display:none; text-align:center; padding:40px 20px;">
+  <button onclick="show('countdownPage')" style="padding:15px 30px;border:none;border-radius:25px;background:#ff4d88;color:white;">
+    Our Date 💞
+  </button>
+</div>
+<!-- COUNTDOWN PAGE -->
+<div id="countdownPage" class="page">
 
-<h2 style="color:#ff4d88;">We Committed On</h2>
-<h1>01 • 03 • 2025</h1>
+  <h2 style="color:#ff4d88;">We committed on</h2>
+  <h1>01 • 03 • 2025 💖</h1>
 
-<div id="timer" style="font-size:22px; margin:20px 0;"></div>
+  <p id="countdownTimer" style="font-size:18px; margin-top:15px;"></p>
 
-<div style="margin-top:30px; text-align:left; max-width:500px; margin-left:auto; margin-right:auto; line-height:1.9; font-size:15px;">
+  <div style="max-width:520px;margin:25px auto;text-align:left;line-height:1.9;font-size:15px;">
 
-<p>💗 01-03-2025 — The Day We Became “Us”  
-This was not just a date on the calendar. This was the day feelings turned into something real. The day we stopped standing on two different sides and slowly started walking in the same direction. From this day, your happiness became my peace, your sadness became my concern, and your presence became my comfort. 01-03-2025 is not just when we committed… it is the day my heart officially chose you.</p>
+    <p>💗 01-03-2025 — The Day We Became “Us”  
+    This was not just a date on the calendar. This was the day feelings turned into something real. The day we stopped standing on two different sides and slowly started walking in the same direction. From this day, your happiness became my peace, your sadness became my concern, and your presence became my comfort. 01-03-2025 is not just when we committed… it is the day my heart officially chose you.</p>
 
-<p>💗 05-06-2023 — The First Time I Saw You  
-I still don’t know if you noticed me that day in tuition class… but I remember noticing you. Maybe it was just another normal day for the world, but for me, it quietly became special. I didn’t know that the girl sitting there would later become someone who would change my thoughts, my feelings, and my future. That first sight was simple… but it was the beginning of everything.</p>
+    <p>💗 05-06-2023 — The First Time I Saw You  
+    I still don’t know if you noticed me that day in tuition class… but I remember noticing you. Maybe it was just another normal day for the world, but for me, it quietly became special. I didn’t know that the girl sitting there would later become someone who would change my thoughts, my feelings, and my future. That first sight was simple… but it was the beginning of everything.</p>
 
-<p>💗 20-07-2010 — The Day the World Became Beautiful  
-Long before I knew you… before tuition, before conversations, before feelings… this was the day you came into this world. And I sometimes think how lucky this world is to have you in it. Because without this day, there would be no smiles from you, no talks with you, no “us.” 20-07-2010 is special not just because you were born… but because that’s the day the person I would one day love started her journey.</p>
+    <p>💗 20-07-2010 — The Day the World Became Beautiful  
+    Long before I knew you… before tuition, before conversations, before feelings… this was the day you came into this world. And I sometimes think how lucky this world is to have you in it. Because without this day, there would be no smiles from you, no talks with you, no “us.” 20-07-2010 is special not just because you were born… but because that’s the day the person I would one day love started her journey.</p>
+
+  </div>
+
+  <button onclick="show('letterPage')" 
+    style="padding:12px 22px;border:none;border-radius:20px;background:#222;color:white;margin-top:20px;">
+    Back ❤️
+  </button>
 
 </div>
 
-
-<button onclick="goBackToLetter()" 
-style="margin-top:30px; padding:10px 20px; border:none; border-radius:20px; background:#222; color:white;">
-Back ❤️
-</button>
-
-</div>
 
 
 <audio id="bgMusic" loop>
@@ -176,7 +177,22 @@ setInterval(function(){
   document.getElementById("timer").innerHTML =
     days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds";
 }, 1000);
+(function startCountdown(){
+  const target = new Date("2025-03-01T00:00:00").getTime();
+  setInterval(() => {
+    const now = Date.now();
+    const diff = now - target;
 
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs = Math.floor((diff % (1000*60)) / 1000);
+
+    const el = document.getElementById("countdownTimer");
+    if (el) el.innerHTML = `${days} days 💕 ${hours} hrs 💕 ${mins} mins 💕 ${secs} sec together`;
+  }, 1000);
+})();
+  
 </script>
 
 </body>
