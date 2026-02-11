@@ -1351,30 +1351,15 @@ index.html
     if(page) page.classList.add('active');
     if(page && page.classList.contains("scrollPage")) page.scrollTop = 0;
   }
-
 function checkPassword(){
   const raw = document.getElementById("passwordInput").value || "";
 
-  // keep only digits so: "01 03 2025" -> "01032025"
+  // convert "01-03-2025" or "01032025" both to 01032025
   const entered = raw.replace(/\D/g, "");
 
   if(entered === "01032025"){
-    const music = document.getElementById("bgMusic");
-    if(music){
-      music.volume = 0.75;
-      music.play().catch(()=>{});
-    }
-
-    const overlay = document.getElementById("welcomeOverlay");
-    if(overlay){
-      overlay.classList.add("show");
-      setTimeout(() => {
-        overlay.classList.remove("show");
-        show("envelopePage");   // ✅ make sure envelopePage exists
-      }, 1600);
-    } else {
-      show("envelopePage");
-    }
+    show("envelopePage");
+// make sure envelopePage exists
   } else {
     alert("Wrong date 💔");
   }
