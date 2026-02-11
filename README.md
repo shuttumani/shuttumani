@@ -157,6 +157,159 @@ index.html
   }
   .newEnvelope.open .topFlap{ transform:rotateX(180deg); }
   .newEnvelope.open .paper{ transform:translateY(-20px); }
+  /* ===== Tuition Animation ===== */
+.tuitionScene{
+  position:relative;
+  height:200px;
+  border-radius:16px;
+  background:linear-gradient(180deg, rgba(255,77,136,.10), rgba(255,255,255,.03));
+  border:1px solid rgba(255,77,136,.18);
+  overflow:hidden;
+}
+.board{
+  position:absolute;
+  top:14px; left:14px; right:14px;
+  height:46px;
+  border-radius:12px;
+  background:rgba(0,0,0,.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  letter-spacing:.5px;
+  opacity:.9;
+}
+.desk{
+  position:absolute;
+  left:20px; right:20px;
+  bottom:48px;
+  height:18px;
+  border-radius:12px;
+  background:rgba(255,255,255,.10);
+}
+.me,.her{
+  position:absolute;
+  bottom:56px;
+  width:54px;
+  height:90px;
+}
+.me{ left:32%; animation: lean 2.2s ease-in-out infinite; }
+.her{ left:56%; animation: lean 2.2s ease-in-out infinite reverse; }
+
+.me .head, .her .head{
+  width:26px; height:26px;
+  border-radius:50%;
+  background:rgba(255,255,255,.85);
+  margin:0 auto;
+}
+.me .body, .her .body{
+  width:34px; height:48px;
+  border-radius:16px;
+  background:rgba(255,77,136,.55);
+  margin:8px auto 0;
+}
+
+.heartPop{
+  position:absolute;
+  left:50%;
+  bottom:78px;
+  transform:translateX(-50%);
+  font-size:18px;
+  opacity:0;
+  animation: pop 2.2s ease-in-out infinite;
+}
+
+@keyframes pop{
+  0%,40%{ opacity:0; transform:translateX(-50%) translateY(10px) scale(.8); }
+  60%{ opacity:1; transform:translateX(-50%) translateY(-8px) scale(1); }
+  100%{ opacity:0; transform:translateX(-50%) translateY(-16px) scale(1.1); }
+}
+@keyframes lean{
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%{ transform:translateY(-2px) rotate(2deg); }
+                                }
+  /* ===== Future Animation ===== */
+.futureScene{
+  position:relative;
+  height:220px;
+  border-radius:16px;
+  background:linear-gradient(180deg, rgba(255,77,136,.12), rgba(255,255,255,.03));
+  border:1px solid rgba(255,77,136,.18);
+  overflow:hidden;
+  text-align:center;
+}
+.ringPulse{
+  position:absolute;
+  top:16px; left:50%;
+  transform:translateX(-50%);
+  font-size:28px;
+  animation:ring 1.6s ease-in-out infinite;
+}
+@keyframes ring{
+  0%,100%{ transform:translateX(-50%) scale(1); filter:drop-shadow(0 0 0 rgba(255,77,136,0)); }
+  50%{ transform:translateX(-50%) scale(1.12); filter:drop-shadow(0 0 14px rgba(255,77,136,.55)); }
+}
+
+.couple{
+  position:absolute;
+  bottom:68px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:14px;
+  align-items:flex-end;
+  animation: cuddle 2.4s ease-in-out infinite;
+}
+@keyframes cuddle{
+  0%,100%{ transform:translateX(-50%) translateY(0); }
+  50%{ transform:translateX(-50%) translateY(-3px); }
+}
+.cHead{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(255,255,255,.85);
+}
+.cBody{
+  width:30px;height:42px;border-radius:16px;
+  background:rgba(255,77,136,.55);
+  margin-top:6px;
+}
+
+.kids{
+  position:absolute;
+  bottom:46px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:14px;
+  opacity:.95;
+}
+.kid{
+  font-size:20px;
+  animation:kidJump 1.8s ease-in-out infinite;
+}
+.kid:nth-child(2){ animation-delay:.35s; }
+@keyframes kidJump{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-8px); }
+}
+
+.home{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:22px;
+  opacity:.9;
+}
+
+.futureScene .txt{
+  position:absolute;
+  top:62px;
+  left:50%;
+  transform:translateX(-50%);
+  opacity:.85;
+  font-size:14px;
+}
 </style>
 </head>
 
@@ -287,19 +440,45 @@ index.html
   </div>
 </div>
 
+
 <!-- MEMORIES PAGE -->
 <div id="memoriesPage" class="page scrollPage">
   <h2 class="title" style="color:#ff4d88;">Memories 🪵</h2>
+
   <div class="card">
-    <p style="margin-top:0;">
-      I still remember those tuition days… that long wooden bench and the long table.
-      Sitting close, pretending it’s normal — but my heart was shouting.
+    <div class="tuitionScene">
+      <div class="board">Tuition 🖍️</div>
+
+      <div class="desk"></div>
+
+      <div class="me">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="her">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="heartPop">💗</div>
+    </div>
+
+    <p style="margin-top:14px;">
+      I still remember that tuition class… the long wooden bench… and you sitting there like it’s nothing.
+      But for me… that was the first time my heart started keeping memories.
     </p>
+
     <p>
-      And those secret talks… the staircase to the second floor…
-      where we acted like strangers in front of everyone,
-      but inside, we were building our own little world quietly.
+      Even when we acted normal in front of everyone… my mind was only saying one thing:
+      “Please let this moment never end.”
     </p>
+
+    <p style="opacity:.9;">
+      Some places become special not because of the place…  
+      but because YOU were there.
+    </p>
+
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
       <button class="btnDark" onclick="show('optionsPage')">Back 🌙</button>
     </div>
@@ -309,10 +488,35 @@ index.html
 <!-- ONE DAY PAGE -->
 <div id="oneDayPage" class="page scrollPage">
   <h2 class="title" style="color:#ff4d88;">One Day 💍</h2>
+
   <div class="card">
-    <p style="margin-top:0;">
-      One day… I don’t want a perfect life… I want a life with you.
+    <div class="futureScene">
+      <div class="ringPulse">💍</div>
+
+      <div class="couple">
+        <div class="cHead"></div><div class="cBody"></div>
+        <div class="cHead"></div><div class="cBody"></div>
+      </div>
+
+      <div class="kids">
+        <div class="kid">👶</div>
+        <div class="kid">🧒</div>
+      </div>
+
+      <div class="home">🏡</div>
+      <div class="txt">A peaceful life… with you.</div>
+    </div>
+
+    <p style="margin-top:14px;">
+      One day… not in a dream… in real life…  
+      I want a home where your laugh is the happiest sound.
     </p>
+
+    <p style="opacity:.9;">
+      I don’t want perfect life…  
+      I want a life with you. 🩷
+    </p>
+
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
       <button class="btnDark" onclick="show('optionsPage')">Back 🌙</button>
     </div>
