@@ -1,4 +1,5 @@
 index.html
+index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,14 +64,14 @@ button{
 <body>
 
 <!-- LOCK SCREEN -->
-<div id="letterPage" class="page" style="height:70vh; overflow-y:auto; padding:20px; font-size:18px; line-height:1.6;">
+<div id="lockPage" class="page active">
   <h1>shuttumani 💋</h1>
   <input type="password" id="passwordInput" placeholder="Enter date">
   <button onclick="checkPassword()">Unlock</button>
 </div>
 
 <!-- ENVELOPE PAGE -->
-<div id="envelopePage" class="page">
+<div id="letterPage" class="page" style="height:70vh; overflow-y:auto; padding:20px; font-size:18px; line-height:1.6;">
   <h2>Love Letter 💌</h2>
   <button onclick="openLetter()">Open</button>
 </div>
