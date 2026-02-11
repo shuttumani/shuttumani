@@ -42,16 +42,51 @@ button {
   font-size: 16px;
   border-radius: 8px;
 }
+/* Floating hearts */
+.hearts::before,
+.hearts::after {
+  content: "❤️";
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+}
+
+.hearts::after {
+  left: 70%;
+  animation-delay: 3s;
+}
+
+@keyframes float {
+  0% { top: 100%; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: -10%; opacity: 0; }
+}
+
 </style>
 </head>
 
 <body>
 
 <!-- PAGE 1 -->
-<div id="lockPage" class="page active">
-  <h1>Lock Page</h1>
-  <button onclick="show('envelopePage')">Go to Envelope</button>
+<div id="lockPage" class="page active" style="background:black; overflow:hidden;">
+
+  <div class="hearts"></div>
+
+  <h2 id="introText" style="opacity:0; transition:2s; text-align:center;">
+    ammede ponnu araaa 💋💋
+  </h2>
+
+  <input 
+    type="password" 
+    id="passwordInput" 
+    placeholder="Enter password"
+    style="margin-top:20px; padding:10px; border-radius:8px; border:none; text-align:center;"
+  >
+
+  <button onclick="checkPassword()">Unlock</button>
+
 </div>
+
 
 <!-- PAGE 2 -->
 <div id="envelopePage" class="page">
@@ -80,6 +115,24 @@ function show(pageId) {
 
   document.getElementById(pageId).classList.add('active');
 }
+// Fade intro text
+window.onload = function() {
+  setTimeout(function() {
+    document.getElementById("introText").style.opacity = 1;
+  }, 500);
+};
+
+// Check password
+function checkPassword() {
+  var input = document.getElementById("passwordInput").value;
+
+  if (input === "01 03 2025") {
+    show('envelopePage');
+  } else {
+    alert("Wrong password 💔");
+  }
+}
+  
 </script>
 
 </body>
