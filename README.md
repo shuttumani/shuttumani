@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Shuttumani 💗</title>
+<title>Our Secret Chat 💬</title>
 
 <style>
 
 body{
 margin:0;
+background:#0b0b0b;
 font-family:Arial;
-background:linear-gradient(180deg,#000,#0a0a0a);
 color:white;
-overflow:hidden;
 }
 
-/* page system */
 .page{
 position:fixed;
 inset:0;
@@ -24,28 +21,18 @@ display:none;
 }
 
 .active{
-display:flex;
+display:block;
 }
 
-/* lock screen */
-#lockPage{
-justify-content:center;
-align-items:center;
-background:radial-gradient(circle,#111,#000);
-}
+/* LOCK PAGE */
 
 .lockBox{
-background:#111;
-padding:35px;
-border-radius:20px;
-box-shadow:0 0 40px rgba(255,77,166,0.4);
-text-align:center;
-}
-
-.lockTitle{
-font-size:28px;
-margin-bottom:15px;
-color:#ff4da6;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:15px;
 }
 
 input{
@@ -53,112 +40,8 @@ padding:14px;
 border-radius:12px;
 border:none;
 font-size:18px;
+width:250px;
 text-align:center;
-width:220px;
-background:#222;
-color:white;
-}
-
-/* chat page */
-#chatPage{
-flex-direction:column;
-}
-
-/* header */
-.header{
-display:flex;
-align-items:center;
-gap:10px;
-padding:15px;
-background:#0f0f0f;
-border-bottom:1px solid #222;
-}
-
-.avatar{
-width:40px;
-height:40px;
-border-radius:50%;
-background:#ff4da6;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-}
-
-.userInfo{
-flex:1;
-}
-
-.name{
-font-size:18px;
-}
-
-.status{
-font-size:13px;
-color:#aaa;
-}
-
-/* online dot */
-.dot{
-width:10px;
-height:10px;
-border-radius:50%;
-background:#0f0;
-display:inline-block;
-margin-right:5px;
-box-shadow:0 0 8px #0f0;
-}
-
-/* messages */
-.messages{
-flex:1;
-overflow-y:auto;
-padding:15px;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.msg{
-padding:12px 16px;
-border-radius:14px;
-max-width:70%;
-animation:fadeIn 0.3s;
-}
-
-.me{
-background:#ff4da6;
-align-self:flex-end;
-}
-
-.her{
-background:#222;
-align-self:flex-start;
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-/* typing */
-.typing{
-font-size:13px;
-color:#aaa;
-padding-left:15px;
-height:20px;
-}
-
-/* input */
-.inputArea{
-display:flex;
-gap:10px;
-padding:10px;
-background:#0f0f0f;
-}
-
-.inputArea input{
-flex:1;
 }
 
 button{
@@ -167,125 +50,247 @@ border:none;
 border-radius:12px;
 background:#ff4da6;
 color:white;
-font-size:16px;
-cursor:pointer;
+font-size:18px;
 }
 
-/* floating hearts */
-.heart{
-position:fixed;
-bottom:-10px;
-animation:float 6s linear infinite;
-color:#ff4da6;
+.chatHeader{
+background:#111;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #222;
 }
 
-@keyframes float{
-from{transform:translateY(0);}
-to{transform:translateY(-110vh);}
+.status{
+font-size:14px;
+opacity:.8;
+}
+
+.online{
+color:#00ff88;
+}
+
+.offline{
+color:#aaa;
+}
+
+.chatBox{
+position:absolute;
+top:60px;
+bottom:70px;
+left:0;
+right:0;
+overflow-y:auto;
+padding:15px;
+}
+
+.msg{
+padding:10px 14px;
+margin:6px 0;
+border-radius:14px;
+max-width:70%;
+word-wrap:break-word;
+}
+
+.me{
+background:#ff4da6;
+margin-left:auto;
+}
+
+.her{
+background:#222;
+margin-right:auto;
+}
+
+.inputBar{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+display:flex;
+padding:10px;
+background:#111;
+gap:10px;
+}
+
+.inputBar input{
+flex:1;
+}
+
+.typing{
+font-size:13px;
+opacity:.7;
+padding:5px 15px;
 }
 
 </style>
-
 </head>
+
 <body>
 
 <!-- LOCK PAGE -->
+
 <div id="lockPage" class="page active">
 
 <div class="lockBox">
 
-<div class="lockTitle">
-Shuttumani 💗
-</div>
+<h1>Shuttumani 💋</h1>
 
-<input id="password" placeholder="Enter date">
+<input id="passwordInput" type="password" placeholder="Enter secret date">
 
-<br><br>
-
-<button onclick="unlock()">Unlock</button>
+<button onclick="checkPassword()">Unlock</button>
 
 </div>
 
 </div>
-
 
 <!-- CHAT PAGE -->
+
 <div id="chatPage" class="page">
 
-<!-- header -->
-<div class="header">
+<div class="chatHeader">
 
-<div class="avatar">
-S
+<div>
+Shuttumani 💬
+<div id="status" class="status offline">Offline</div>
 </div>
 
-<div class="userInfo">
+<button onclick="logout()">Logout</button>
 
-<div class="name">
-Shuttumani
-</div>
-
-<div class="status">
-<span class="dot"></span>Online
-</div>
-
-</div>
-
-</div>
-
-
-<!-- messages -->
-<div id="messages" class="messages">
 </div>
 
 <div id="typing" class="typing"></div>
 
+<div id="chatBox" class="chatBox"></div>
 
-<!-- input -->
-<div class="inputArea">
+<div class="inputBar">
 
-<input id="msgInput"
-placeholder="Type message..."
-oninput="typing()"
-onkeydown="if(event.key==='Enter') send()">
+<input id="msgInput" placeholder="Type message..." oninput="typing()">
 
-<button onclick="send()">Send</button>
+<button onclick="sendMessage()">Send</button>
 
 </div>
 
 </div>
 
+<!-- SOUND -->
 
-<audio id="sound">
-<source src="https://www.soundjay.com/buttons/sounds/button-3.mp3">
+<audio id="notifySound">
+<source src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3">
 </audio>
 
+<script type="module">
 
-<script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 
-/* PASSWORD */
-const PASSWORD="01032025";
+import {
+getFirestore,
+collection,
+addDoc,
+query,
+orderBy,
+onSnapshot,
+doc,
+setDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-function unlock(){
+/* YOUR FIREBASE */
 
-const input=document.getElementById("password").value;
+const firebaseConfig = {
 
-if(input===PASSWORD){
+apiKey:"AIzaSyDJ5nrd-sCZNvCsg3THxXhewT0cBzkDoCI",
+
+authDomain:"shuttumani-chat.firebaseapp.com",
+
+projectId:"shuttumani-chat",
+
+storageBucket:"shuttumani-chat.firebasestorage.app",
+
+messagingSenderId:"1033302224383",
+
+appId:"1:1033302224383:web:952bdfed407ab257cf0bca"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const db=getFirestore(app);
+
+const auth=getAuth(app);
+
+/* CHANGE THIS */
+
+const HER_EMAIL="kk84089@gmail.com";
+
+/* LOCK */
+
+window.checkPassword=function(){
+
+const pass=document.getElementById("passwordInput").value;
+
+if(pass==="01032025"){
+
+login();
+
+}else{
+
+alert("Wrong date");
+
+}
+
+}
+
+/* LOGIN */
+
+async function login(){
+
+const email=prompt("Enter email");
+
+const pass=prompt("Enter password");
+
+await signInWithEmailAndPassword(auth,email,pass);
+
+}
+
+/* AUTH */
+
+let currentUser="";
+
+onAuthStateChanged(auth,user=>{
+
+if(user){
+
+currentUser=user.email;
 
 show("chatPage");
 
+online();
+
+listen();
+
+listenPresence();
+
+}else{
+
+show("lockPage");
+
 }
-else{
 
-alert("Wrong date 💔");
+});
 
-}
+/* SHOW PAGE */
 
-}
-
-
-/* show page */
 function show(id){
 
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -294,80 +299,173 @@ document.getElementById(id).classList.add("active");
 
 }
 
+/* SEND MESSAGE */
 
-/* send message */
-function send(){
+window.sendMessage=async function(){
 
 const input=document.getElementById("msgInput");
 
-const text=input.value.trim();
+if(!input.value)return;
 
-if(!text) return;
+await addDoc(collection(db,"messages"),{
 
-addMsg(text,"me");
+text:input.value,
+
+sender:currentUser,
+
+time:serverTimestamp()
+
+});
 
 input.value="";
 
-document.getElementById("typing").innerText="";
-
-document.getElementById("sound").play();
-
 }
 
+/* LISTEN MESSAGES */
 
-/* add message */
-function addMsg(text,type){
+function listen(){
+
+const q=query(collection(db,"messages"),orderBy("time"));
+
+onSnapshot(q,snap=>{
+
+const box=document.getElementById("chatBox");
+
+box.innerHTML="";
+
+snap.forEach(docu=>{
+
+const d=docu.data();
 
 const div=document.createElement("div");
 
-div.className="msg "+type;
+div.className="msg "+(d.sender===currentUser?"me":"her");
 
-div.innerText=text;
+div.innerText=d.text;
 
-document.getElementById("messages").appendChild(div);
+box.appendChild(div);
 
-scroll();
+if(d.sender!==currentUser){
 
-}
-
-
-function scroll(){
-
-document.getElementById("messages").scrollTop=999999;
+document.getElementById("notifySound").play();
 
 }
 
+});
 
-/* typing indicator */
-function typing(){
+box.scrollTop=box.scrollHeight;
 
-document.getElementById("typing").innerText="Typing...";
+});
 
-clearTimeout(window.typingTimer);
+}
 
-window.typingTimer=setTimeout(()=>{
-document.getElementById("typing").innerText="";
+/* ONLINE */
+
+async function online(){
+
+await setDoc(doc(db,"presence",me),{
+
+online:true,
+lastSeen:serverTimestamp()
+
+});
+
+}
+
+/* PRESENCE LISTEN */
+
+function listenPresence(){
+
+onSnapshot(doc(db,"presence",HER),snap=>{
+
+const status=document.getElementById("status");
+
+if(!snap.exists()) return;
+
+const data=snap.data();
+
+if(data.online){
+
+status.innerText="Online";
+status.className="status online";
+
+}else{
+
+if(data.lastSeen){
+
+const date=data.lastSeen.toDate();
+
+const time=date.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
+
+status.innerText="Last seen at "+time;
+
+}else{
+
+status.innerText="Offline";
+
+}
+
+status.className="status offline";
+
+}
+
+});
+
+                      }
+
+/* TYPING */
+
+window.typing=async function(){
+
+await setDoc(doc(db,"typing",currentUser),{
+
+typing:true
+
+});
+
+setTimeout(async()=>{
+
+await setDoc(doc(db,"typing",currentUser),{
+
+typing:false
+
+});
+
 },1000);
 
 }
 
+onSnapshot(doc(db,"typing",HER_EMAIL),snap=>{
 
-/* floating hearts */
-setInterval(()=>{
+if(snap.exists() && snap.data().typing){
 
-const heart=document.createElement("div");
+document.getElementById("typing").innerText="Typing...";
 
-heart.className="heart";
+}else{
 
-heart.innerText="💗";
+document.getElementById("typing").innerText="";
 
-heart.style.left=Math.random()*100+"%";
+}
 
-document.body.appendChild(heart);
+});
 
-setTimeout(()=>heart.remove(),6000);
+/* LOGOUT */
 
-},700);
+window.logout=async function(){
+
+await setDoc(doc(db,"presence",me),{
+
+online:false,
+lastSeen:serverTimestamp()
+
+});
+
+await signOut(auth);
+
+};
 
 </script>
 
