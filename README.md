@@ -358,6 +358,19 @@ index.html<!doctype html>
         onlineText.textContent = "Offline";
       }
     });
+    type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+};
+
+const app = initializeApp(firebaseConfig);
+
+const VAPID_KEY = "BKHV-MJW8zHzv928ii7SjXSzX7wue7O9aoCLRXwYi65_Yi0HzPmKJvy977JSDPXsmk3tPUgjUEwq9hdNGwQ6bG8
   </script>
 </body>
 </html>
