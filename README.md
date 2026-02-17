@@ -1,122 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shuttumani Chat 💗</title>
+<title>Shuttumani Chat</title>
 
 <style>
-  body{margin:0;background:#000;color:#fff;font-family:Arial,sans-serif;overflow:hidden;}
-  .page{position:fixed;inset:0;display:none;}
-  .page.active{display:flex;}
-
-  .center{
-    height:100%;width:100%;
-    display:flex;flex-direction:column;
-    justify-content:center;align-items:center;
-    gap:12px;padding:18px;box-sizing:border-box;
-    text-align:center;
+  body{
+    margin:0;
+    background:#0b0b0b;
+    color:#fff;
+    font-family:Arial, sans-serif;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
   }
-
-  h1{margin:0;color:#ff4da6;letter-spacing:.3px;}
-  .hint{opacity:.85;max-width:520px;line-height:1.5;}
-  input{
-    padding:14px;font-size:18px;border:none;border-radius:12px;
-    width:min(340px,85vw);text-align:center;outline:none;
-    background:#111;color:#fff;border:1px solid #222;
+  .topbar{
+    padding:12px 14px;
+    background:#111;
+    border-bottom:1px solid #222;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
   }
-  button{
-    padding:14px 22px;font-size:18px;border:none;border-radius:12px;
-    background:#ff4da6;color:#fff;cursor:pointer;
+  .title{
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
-  .btnDark{background:#222;border:1px solid #333;}
-  .err{min-height:18px;color:#ffb3d9;opacity:.95;}
-
-  /* Chat UI */
-  #chatPage{flex-direction:column;}
-  .header{
-    height:66px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;
-    background:#0f0f0f;border-bottom:1px solid #222;box-sizing:border-box;
+  .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:#666;
+    display:inline-block;
   }
-  .who{display:flex;flex-direction:column;gap:2px;text-align:left;}
-  .title{font-size:18px;}
-  .status{font-size:13px;opacity:.85;color:#bbb;}
-  #messages{
-    flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;
+  .status{
+    font-size:12px;
+    opacity:.85;
+    line-height:1.2;
+  }
+  .btn{
+    background:#ff4da6;
+    color:#fff;
+    border:none;
+    padding:10px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+    white-space:nowrap;
+  }
+  .btnDark{ background:#222; }
+  .chat{
+    flex:1;
+    overflow:auto;
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
   }
   .bubble{
-    max-width:78%;padding:10px 12px;border-radius:14px;line-height:1.4;font-size:16px;
-    word-wrap:break-word;border:1px solid rgba(255,255,255,.06);
+    max-width:78%;
+    padding:10px 12px;
+    border-radius:14px;
+    line-height:1.45;
+    border:1px solid #222;
+    background:#121212;
+    white-space:pre-wrap;
+    word-wrap:break-word;
   }
-  .me{align-self:flex-end;background:#ff4da6;}
-  .her{align-self:flex-start;background:#1a1a1a;}
-  .meta{font-size:12px;opacity:.75;margin-top:4px}
+  .me{
+    align-self:flex-end;
+    background:rgba(255,77,166,.12);
+    border:1px solid rgba(255,77,166,.28);
+  }
+  .meta{
+    font-size:11px;
+    opacity:.65;
+    margin-top:4px;
+  }
   .composer{
-    height:74px;padding:10px;background:#0f0f0f;border-top:1px solid #222;
-    display:flex;gap:10px;align-items:center;box-sizing:border-box;
+    display:flex;
+    gap:10px;
+    padding:12px;
+    border-top:1px solid #222;
+    background:#0f0f0f;
   }
-  #msgInput{flex:1;text-align:left;}
+  textarea{
+    flex:1;
+    resize:none;
+    height:44px;
+    max-height:140px;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid #222;
+    background:#0b0b0b;
+    color:#fff;
+    font-size:15px;
+    outline:none;
+  }
 </style>
 </head>
 
 <body>
 
-<!-- LOCK -->
-<div id="lockPage" class="page active">
-  <div class="center">
-    <h1>Private 💗</h1>
-    <div class="hint">“ammede ponnu araaa 💋💋”</div>
-
-    <input id="lockPass" type="password" placeholder="Enter date (01032025)"
-           inputmode="numeric" autocomplete="off"
-           onkeydown="if(event.key==='Enter'){ unlock(); }">
-    <button type="button" onclick="unlock()">Unlock</button>
-  </div>
-</div>
-
-<!-- LOGIN -->
-<div id="loginPage" class="page">
-  <div class="center">
-    <h1>Login 💌</h1>
-    <div class="hint">Only you two can enter.</div>
-
-    <input id="email" type="email" placeholder="Email" autocomplete="off">
-    <input id="password" type="password" placeholder="Password" autocomplete="off"
-           onkeydown="if(event.key==='Enter'){ login(); }">
-
-    <button type="button" onclick="login()">Enter Chat</button>
-    <button type="button" class="btnDark" onclick="show('lockPage')">Back</button>
-
-    <div id="loginError" class="err"></div>
-  </div>
-</div>
-
-<!-- CHAT -->
-<div id="chatPage" class="page">
-  <div class="header">
-    <div class="who">
-      <div class="title">Shuttumani 💗 Chat</div>
-      <div class="status" id="statusText">Connecting…</div>
+<div class="topbar">
+  <div>
+    <div class="title">
+      <span class="dot" id="onlineDot"></span>
+      <span>Shuttumani Chat 💬</span>
     </div>
-    <button class="btnDark" onclick="logout()">Logout</button>
+    <div class="status" id="onlineText">Checking…</div>
   </div>
 
-  <div id="messages"></div>
-
-  <div class="composer">
-    <input id="msgInput" placeholder="Type message…"
-           onkeydown="if(event.key==='Enter'){ sendMsg(); }">
-    <button onclick="sendMsg()">Send</button>
+  <div style="display:flex;gap:8px;">
+    <button class="btn btnDark" id="refreshBtn">Refresh</button>
+    <button class="btn" id="logoutBtn">Logout</button>
   </div>
 </div>
 
-<script type="module">
-  // Firebase SDK (stable)
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-  import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+<div class="chat" id="chatBox"></div>
 
-  // ✅ Your Firebase config
+<div class="composer">
+  <textarea id="msgInput" placeholder="Type here..."></textarea>
+  <button class="btn" id="sendBtn">Send 💗</button>
+</div>
+// ✅ 1) Save MY user profile (email -> uid mapping)
+await setDoc(doc(db, "users", user.uid), {
+  uid: user.uid,
+  email: (user.email || "").toLowerCase(),
+  updatedAt: serverTimestamp()
+}, { merge: true });
+
+// ✅ 2) Find HER uid by email
+let herUid = null;
+const herEmailLower = "kk8477089@gmail.com".toLowerCase();
+const snapUsers = await getDocs(query(collection(db, "users"), where("email", "==", herEmailLower)));
+snapUsers.forEach(d => { herUid = d.id; });
+
+// ✅ 3) If her account not logged in at least once, we can't get uid yet
+if(!herUid){
+  onlineDot.style.background = "#666";
+  onlineText.textContent = "Waiting for her first login… (then Online/Last seen will show)";
+} else {
+  // ✅ 4) Listen to HER presence from Realtime DB
+  const herPresenceRef = ref(rtdb, `presence/${herUid}`);
+  onValue(herPresenceRef, (snap) => {
+    const data = snap.val();
+    if(data && data.state === "online"){
+      onlineDot.style.background = "#44ff88";
+      onlineText.textContent = "She is Online 💚";
+    } else {
+      onlineDot.style.background = "#666";
+      const last = data?.lastSeen;
+      onlineText.textContent = formatLastSeen(last);
+    }
+  });
+}
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    onSnapshot,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+  import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+  doc,
+  setDoc,
+  getDocs,
+  where
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyDJ5nrd-sCZNvCsg3THxXhewT0cBzkDoCI",
     authDomain: "shuttumani-chat.firebaseapp.com",
@@ -129,122 +202,127 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  const rtdb = getDatabase(app);
 
-  // Page switch
-  window.show = function(pageId){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    const el = document.getElementById(pageId);
-    if(!el){ alert("Missing page: " + pageId); return; }
-    el.classList.add("active");
-    window.scrollTo(0,0);
-  };
-
-  // Lock
-  window.unlock = function(){
-    const pass = document.getElementById("lockPass").value.trim();
-    if(pass === "01032025") show("loginPage");
-    else alert("Wrong date 💔");
-  };
-
-  // Login / Logout
-  const loginError = document.getElementById("loginError");
-
-  window.login = async function(){
-    loginError.textContent = "";
-    const email = document.getElementById("email").value.trim();
-    const pw = document.getElementById("password").value;
-    if(!email || !pw){ loginError.textContent = "Enter email and password."; return; }
-
-    try{
-      await signInWithEmailAndPassword(auth, email, pw);
-      // onAuthStateChanged will open chat
-    }catch(e){
-      loginError.textContent = e?.message || "Login failed";
-    }
-  };
-
-  window.logout = async function(){
-    await signOut(auth);
-    show("loginPage");
-  };
-
-  // Chat
-  const messagesEl = document.getElementById("messages");
-  const statusText = document.getElementById("statusText");
+  const chatBox = document.getElementById("chatBox");
   const msgInput = document.getElementById("msgInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const refreshBtn = document.getElementById("refreshBtn");
 
-  let unsub = null;
+  const onlineDot = document.getElementById("onlineDot");
+  const onlineText = document.getElementById("onlineText");
 
-  function renderMsg({text, uid, email, ts}, myUid){
+  // ✅ set this to HER email (you already gave)
+  const HER_EMAIL = "kk8477089@gmail.com";
+
+  function formatTime(ts){
+    if(!ts) return "";
+    const d = new Date(ts);
+    let h = d.getHours();
+    const m = String(d.getMinutes()).padStart(2,"0");
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12; if(h===0) h=12;
+    return `${h}:${m} ${ampm}`;
+  }
+
+  function renderMessage({text, uid, createdAtMs, mine}){
     const wrap = document.createElement("div");
-    const bubble = document.createElement("div");
-    bubble.className = "bubble " + (uid === myUid ? "me" : "her");
-    bubble.textContent = text || "";
+    wrap.className = "bubble" + (mine ? " me" : "");
+    wrap.textContent = text;
 
     const meta = document.createElement("div");
     meta.className = "meta";
-    const time = ts?.toDate ? ts.toDate().toLocaleString() : "";
-    meta.textContent = (uid === myUid ? "You" : (email || "Her")) + (time ? " • " + time : "");
+    meta.textContent = createdAtMs ? formatTime(createdAtMs) : "";
+    wrap.appendChild(meta);
 
-    bubble.appendChild(meta);
-    wrap.appendChild(bubble);
-    messagesEl.appendChild(wrap);
+    return wrap;
   }
 
-  function scrollBottom(){
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+  function scrollToBottom(){
+    chatBox.scrollTop = chatBox.scrollHeight;
   }
 
-  function startListening(myUid){
-    if(unsub) unsub();
-    messagesEl.innerHTML = "";
+  // ===== AUTH GATE =====
+  onAuthStateChanged(auth, (user) => {
+    if(!user){
+      window.location.href = "index.html";
+      return;
+    }
 
-    const q = query(collection(db, "messages"), orderBy("ts","asc"), limit(200));
+    // ===== Presence (Online/Last seen) =====
+    const myPresenceRef = ref(rtdb, `presence/${user.uid}`);
+    set(myPresenceRef, { state:"online", lastSeen: rtdbServerTimestamp() });
+    onDisconnect(myPresenceRef).set({ state:"offline", lastSeen: rtdbServerTimestamp() });
 
-    unsub = onSnapshot(q, (snap)=>{
-      messagesEl.innerHTML = "";
-      snap.forEach(doc => renderMsg(doc.data(), myUid));
-      scrollBottom();
-    }, (err)=>{
-      statusText.textContent = "Firestore error (check rules) ⚠️";
-      console.error(err);
+    // Show ONLY HER online status (not yours)
+    // We search her UID using her email is not possible directly with client-only,
+    // so we do: show online status for "chatPartner" document in Firestore.
+    // Simple safe trick: each user writes their UID under /users/{uid}.
+    // We'll create it now:
+    (async()=>{
+      // Firestore: users
+      const usersCol = collection(db, "users");
+      // We can’t "setDoc" without import; keep it simple:
+      // We'll use addDoc only? Not good. So we skip user indexing in Step 3.
+      // Instead: show YOUR status text as "Chat ready" now, Step 4 will add partner lookup.
+      onlineDot.style.background = "#44ff88";
+      onlineText.textContent = "Chat ready ✅ (Step 4 will add her online/last seen)";
+    })();
+
+    // ===== LIVE CHAT =====
+    const q = query(collection(db, "messages"), orderBy("createdAt", "asc"));
+
+    onSnapshot(q, (snap) => {
+      chatBox.innerHTML = "";
+      snap.forEach(doc => {
+        const data = doc.data();
+        const mine = data.uid === user.uid;
+        chatBox.appendChild(renderMessage({
+          text: data.text || "",
+          uid: data.uid,
+          createdAtMs: data.createdAt?.toMillis ? data.createdAt.toMillis() : null,
+          mine
+        }));
+      });
+      scrollToBottom();
     });
-  }
 
-  window.sendMsg = async function(){
-    const user = auth.currentUser;
-    if(!user){ alert("Not logged in"); return; }
+    // SEND
+    async function send(){
+      const text = msgInput.value.trim();
+      if(!text) return;
+      msgInput.value = "";
 
-    const text = msgInput.value.trim();
-    if(!text) return;
-
-    msgInput.value = "";
-
-    try{
       await addDoc(collection(db, "messages"), {
         text,
         uid: user.uid,
         email: user.email || "",
-        ts: serverTimestamp()
+        createdAt: serverTimestamp()
       });
-    }catch(e){
-      alert("Send failed (check Firestore rules)");
-      console.error(e);
     }
-  };
 
-  // ✅ Important: stop direct opening
-  onAuthStateChanged(auth, (user)=>{
-    if(user){
-      show("chatPage");
-      statusText.textContent = "Logged in as: " + (user.email || "user");
-      startListening(user.uid);
-    }else{
-      if(unsub) unsub();
-      // ALWAYS go lock first (not chat)
-      show("lockPage");
-    }
+    sendBtn.onclick = send;
+
+    msgInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" && !e.shiftKey){
+        e.preventDefault();
+        send();
+      }
+    });
+
+    logoutBtn.onclick = async()=>{
+      await signOut(auth);
+      window.location.href = "index.html";
+    };
+
+    refreshBtn.onclick = ()=> location.reload();
   });
+  function formatLastSeen(ms){
+  if(!ms) return "Last seen: unknown";
+  const d = new Date(ms);
+  return "Last seen: " + d.toLocaleString();
+  }
 </script>
 
 </body>
