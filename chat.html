@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shuttumani Chat</title>
+<style>
+  body{margin:0;background:#000;color:#fff;font-family:Arial}
+  .top{position:sticky;top:0;background:#0b0b0b;border-bottom:1px solid #222;padding:14px;z-index:10}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .name{font-weight:700;color:#ff4da6}
+  .status{display:flex;align-items:center;gap:8px;font-size:13px;opacity:.9}
+  .dot{width:10px;height:10px;border-radius:50%;background:#666}
+  .wrap{max-width:900px;margin:0 auto}
+  #msgs{padding:14px;min-height:60vh}
+  .m{background:#0f0f0f;border:1px solid #222;border-radius:14px;padding:10px 12px;margin:10px 0;line-height:1.5}
+  .meta{font-size:12px;opacity:.7;margin-top:6px}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:#0b0b0b;border-top:1px solid #222;padding:12px}
+  .barInner{display:flex;gap:10px;max-width:900px;margin:0 auto}
+  input{flex:1;padding:12px;border:none;border-radius:12px;font-size:15px}
+  button{padding:12px 16px;border:none;border-radius:12px;background:#ff4da6;color:#fff;font-size:15px}
+  .ghost{background:#222}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap row">
+    <div class="name">shuttumani 💋</div>
+    <div class="status">
+      <div id="onlineDot" class="dot"></div>
+      <div id="onlineText">Loading…</div>
+      <button id="logoutBtn" class="ghost" type="button">Logout</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="msgs"></div>
+
+<div class="bar">
+  <div class="barInner">
+    <input id="text" placeholder="Type a message…" />
+    <button id="sendBtn" type="button">Send</button>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  import {
+    getFirestore, collection, addDoc, query, orderBy, onSnapshot,
+    serverTimestamp, doc, setDoc, getDocs, where
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+  import { getDatabase, ref, set, onValue, serverTimestamp as rtdbTS, onDisconnect } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+  // ✅ PASTE YOUR FIREBASE CONFIG HERE (same as index.html)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDJ5nrd-sCZNvCsg3THxXhewT0cBzkDoCI",
+    authDomain: "shuttumani-chat.firebaseapp.com",
+    projectId: "shuttumani-chat",
+    storageBucket: "shuttumani-chat.firebasestorage.app",
+    messagingSenderId: "1033302224383",
+    appId: "1:1033302224383:web:952bdfed407ab257cf0bca"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const rtdb = getDatabase(app);
+
+  const msgs = document.getElementById("msgs");
+  const text = document.getElementById("text");
+  const sendBtn = document.getElementById("sendBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const onlineDot = document.getElementById("onlineDot");
+  const onlineText = document.getElementById("onlineText");
+
+  function formatLastSeen(ms){
+    if(!ms) return "Last seen: unknown";
+    return "Last seen: " + new Date(ms).toLocaleString();
+  }
+
+  function drawMessage(data){
+    const div = document.createElement("div");
+    div.className = "m";
+    div.innerHTML = `
+      <div>${(data.text || "").replace(/</g,"&lt;")}</div>
+      <div class="meta">${data.email || "someone"} • ${data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString() : ""}</div>
+    `;
+    msgs.appendChild(div);
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if(!user){
+      window.location.href = "index.html";
+      return;
+    }
+
+    // ✅ Presence for ME (so my lastSeen updates)
+    const myPresenceRef = ref(rtdb, `presence/${user.uid}`);
+    await set(myPresenceRef, { state:"online", lastSeen:rtdbTS() });
+    onDisconnect(myPresenceRef).set({ state:"offline", lastSeen:rtdbTS() });
+
+    // ✅ Save MY email->uid mapping in Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      email: (user.email || "").toLowerCase(),
+      updatedAt: serverTimestamp()
+    }, { merge:true });
+
+    // ✅ Find HER uid by email
+    const herEmailLower = "kk8477089@gmail.com".toLowerCase();
+    let herUid = null;
+
+    const snapUsers = await getDocs(query(collection(db, "users"), where("email", "==", herEmailLower)));
+    snapUsers.forEach(d => { herUid = d.id; });
+
+    if(!herUid){
+      onlineDot.style.background = "#666";
+      onlineText.textContent = "Waiting for her first login…";
+    } else {
+      // ✅ Listen to HER presence
+      const herPresenceRef = ref(rtdb, `presence/${herUid}`);
+      onValue(herPresenceRef, (snap)=>{
+        const data = snap.val();
+        if(data && data.state === "online"){
+          onlineDot.style.background = "#44ff88";
+          onlineText.textContent = "She is Online 💚";
+        } else {
+          onlineDot.style.background = "#666";
+          onlineText.textContent = formatLastSeen(data?.lastSeen);
+        }
+      });
+    }
+
+    // ✅ Live messages
+    const q = query(collection(db, "messages"), orderBy("createdAt","asc"));
+    onSnapshot(q, (snap)=>{
+      msgs.innerHTML = "";
+      snap.forEach(docu => drawMessage(docu.data()));
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    // ✅ Send message
+    sendBtn.onclick = async ()=>{
+      const t = text.value.trim();
+      if(!t) return;
+      text.value = "";
+      await addDoc(collection(db, "messages"), {
+        text: t,
+        email: user.email || "me",
+        createdAt: serverTimestamp()
+      });
+    };
+
+    text.addEventListener("keydown",(e)=>{
+      if(e.key==="Enter") sendBtn.click();
+    });
+
+    logoutBtn.onclick = async ()=>{
+      await signOut(auth);
+      window.location.href = "index.html";
+    };
+  });
+</script>
+
+</body>
+</html>
