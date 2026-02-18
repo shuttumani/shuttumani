@@ -65,57 +65,90 @@
       font-size:16px;
     }
     .hint{margin-top:10px;color:var(--mut);font-size:12px}
-    .msg{margin-top:10px;font-size:13px;font-weight:700}
+    .msg{margin-top:10px;font-size:13px;font-weight:800}
     .ok{color:var(--good)}
     .bad{color:var(--bad)}
+    .hide{display:none}
   </style>
 </head>
 <body>
 
-  <div class="glass">
+  <!-- LOCK BOX -->
+  <div id="lockBox" class="glass">
     <h1>Unlock 🔒</h1>
     <p>Enter our secret date to open.</p>
 
     <input id="lockInput" placeholder="01032025" inputmode="numeric" maxlength="8" />
     <button id="unlockBtn">Unlock</button>
 
-    <div id="msg" class="msg"></div>
+    <div id="lockMsg" class="msg"></div>
     <div class="hint">Hint: DDMMYYYY</div>
   </div>
 
+  <!-- LOGIN BOX (Step 2 UI) -->
+  <div id="loginBox" class="glass hide">
+    <h1>Login 💞</h1>
+    <p>Now enter email + password (Firebase step comes next).</p>
+
+    <input id="email" placeholder="Email" autocomplete="username" />
+    <input id="pass" placeholder="Password" type="password" autocomplete="current-password" />
+    <button id="fakeLoginBtn">Login</button>
+
+    <div id="loginMsg" class="msg"></div>
+    <div class="hint">Next step: we connect this button to Firebase Auth.</div>
+  </div>
+
   <script>
-    // ✅ runs after HTML loaded (script is at bottom)
     const SECRET = "01032025";
+
+    const lockBox = document.getElementById("lockBox");
+    const loginBox = document.getElementById("loginBox");
+
     const lockInput = document.getElementById("lockInput");
     const unlockBtn = document.getElementById("unlockBtn");
-    const msg = document.getElementById("msg");
+    const lockMsg = document.getElementById("lockMsg");
 
-    function setMsg(text, ok){
-      msg.textContent = text;
-      msg.className = "msg " + (ok ? "ok" : "bad");
+    const fakeLoginBtn = document.getElementById("fakeLoginBtn");
+    const loginMsg = document.getElementById("loginMsg");
+
+    function showLogin(){
+      lockBox.classList.add("hide");
+      loginBox.classList.remove("hide");
+    }
+
+    function setLockMsg(text, ok){
+      lockMsg.textContent = text;
+      lockMsg.className = "msg " + (ok ? "ok" : "bad");
+    }
+
+    // If already unlocked earlier
+    if(localStorage.getItem("sh_lock_ok")==="1"){
+      showLogin();
     }
 
     unlockBtn.addEventListener("click", () => {
       const v = (lockInput.value || "").trim();
       if(v === SECRET){
         localStorage.setItem("sh_lock_ok", "1");
-        setMsg("✅ Unlocked! (Next step: Login screen)", true);
+        setLockMsg("✅ Unlocked! Opening login…", true);
+        setTimeout(showLogin, 350); // small nice delay
       }else{
-        setMsg("❌ Wrong date. Try again.", false);
+        setLockMsg("❌ Wrong date. Try again.", false);
         lockInput.value = "";
         lockInput.focus();
       }
     });
 
-    // Allow enter key too
     lockInput.addEventListener("keydown", (e) => {
       if(e.key === "Enter") unlockBtn.click();
     });
 
-    // If already unlocked before
-    if(localStorage.getItem("sh_lock_ok") === "1"){
-      setMsg("✅ Already unlocked (Next step: Login screen)", true);
-    }
+    // temporary (until Firebase step)
+    fakeLoginBtn.addEventListener("click", () => {
+      loginMsg.textContent = "✅ UI OK. Next step we connect Firebase login.";
+      loginMsg.className = "msg ok";
+    });
   </script>
+
 </body>
 </html>
