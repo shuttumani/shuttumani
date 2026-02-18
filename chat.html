@@ -204,222 +204,119 @@
     </section>
 
   </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut }
-      from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-    import {
-      getFirestore,
-      doc, setDoc, onSnapshot,
-      collection, addDoc,
-      serverTimestamp,
-      query, orderBy, limit,
-      onSnapshot as onSnapQuery
-    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+  // ✅ your firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDJ5nrd-sCZNvCsg3THxXhewT0cBzkDoCI",
+    authDomain: "shuttumani-chat.firebaseapp.com",
+    projectId: "shuttumani-chat",
+    storageBucket: "shuttumani-chat.firebasestorage.app",
+    messagingSenderId: "1033302224383",
+    appId: "1:1033302224383:web:952bdfed407ab257cf0bca"
+  };
 
-    // ✅ Your Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDJ5nrd-sCZNvCsg3THxXhewT0cBzkDoCI",
-      authDomain: "shuttumani-chat.firebaseapp.com",
-      projectId: "shuttumani-chat",
-      storageBucket: "shuttumani-chat.firebasestorage.app",
-      messagingSenderId: "1033302224383",
-      appId: "1:1033302224383:web:952bdfed407ab257cf0bca"
-    };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  // IDs
+  const ROOM_ID = "our-room";
 
-    // SETTINGS
-    const SECRET_LOCK = "01032025";
-    const ROOM_ID = "our-room";
-    const HER_UID = "SAy45xarKaXAL9gHFGGJkxLUHpq1"; // her uid
+  // UI
+  const loginBox = document.getElementById("loginBox");
+  const chatBox  = document.getElementById("chatBox");
 
-    // UI
-    const lockBox = document.getElementById("lockBox");
-    const loginBox = document.getElementById("loginBox");
-    const chatBox = document.getElementById("chatBox");
+  const emailEl  = document.getElementById("email");
+  const passEl   = document.getElementById("pass");
+  const loginBtn = document.getElementById("loginBtn");
 
-    const lockInput = document.getElementById("lockInput");
-    const unlockBtn = document.getElementById("unlockBtn");
-    const lockMsg = document.getElementById("lockMsg");
+  const msgs     = document.getElementById("msgs");
+  const msgInput = document.getElementById("msgInput");
+  const sendBtn  = document.getElementById("sendBtn");
 
-    const emailEl = document.getElementById("email");
-    const passEl = document.getElementById("pass");
-    const loginBtn = document.getElementById("loginBtn");
-    const loginMsg = document.getElementById("loginMsg");
+  // Simple show/hide
+  const show = (el) => el && el.classList.remove("hide");
+  const hide = (el) => el && el.classList.add("hide");
 
-    const whoLine = document.getElementById("whoLine");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    const msgs = document.getElementById("msgs");
-    const msgInput = document.getElementById("msgInput");
-    const sendBtn = document.getElementById("sendBtn");
-
-    const onlineDot = document.getElementById("onlineDot");
-    const onlineText = document.getElementById("onlineText");
-
-    function show(el){ el.classList.remove("hide"); }
-    function hide(el){ el.classList.add("hide"); }
-
-    function escapeHtml(s){
-      return (s||"").replace(/[&<>"']/g, c => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-      }[c]));
+  // LOGIN
+  loginBtn?.addEventListener("click", async () => {
+    try {
+      await signInWithEmailAndPassword(auth, emailEl.value.trim(), passEl.value);
+    } catch (e) {
+      alert("Login failed: " + (e.code || e.message));
+      console.log(e);
     }
+  });
 
-    // ===== LOCK =====
-    function unlockOk(){
-      hide(lockBox);
-      show(loginBox);
-      localStorage.setItem("sh_lock_ok","1");
-      lockMsg.textContent = "";
-      loginMsg.textContent = "";
-    }
+  // SEND MESSAGE
+  async function sendMsg(){
+    const text = (msgInput.value || "").trim();
+    if(!text) return;
 
-    if(localStorage.getItem("sh_lock_ok")==="1") unlockOk();
-
-    unlockBtn.addEventListener("click", ()=>{
-      const v = (lockInput.value||"").trim();
-      if(v === SECRET_LOCK){
-        lockMsg.innerHTML = '<span class="good">✅ Unlocked</span>';
-        unlockOk();
-      }else{
-        lockMsg.innerHTML = '<span class="bad">❌ Wrong date</span>';
-        lockInput.value = "";
-        lockInput.focus();
-      }
-    });
-
-    lockInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") unlockBtn.click(); });
-
-    // ===== LOGIN =====
-    loginBtn.addEventListener("click", async ()=>{
-      loginMsg.textContent = "Logging in…";
-      try{
-        await signInWithEmailAndPassword(auth, emailEl.value.trim(), passEl.value);
-        loginMsg.textContent = "";
-      }catch(e){
-        console.log(e);
-        loginMsg.innerHTML = '<span class="bad">Login failed. Check email/password.</span>';
-      }
-    });
-
-    logoutBtn.addEventListener("click", async ()=>{
-      await signOut(auth);
-    });
-
-    // ===== PRESENCE (online only) =====
-    let presenceTimer = null;
-    async function setMyPresence(online){
-      const u = auth.currentUser;
-      if(!u) return;
-      await setDoc(doc(db, "presence", u.uid), {
-        email: u.email,
-        online: online,
-        lastSeen: serverTimestamp()
-      }, {merge:true});
-    }
-    function startHeartbeat(){
-      if(presenceTimer) clearInterval(presenceTimer);
-      presenceTimer = setInterval(()=>setMyPresence(true), 20000);
-    }
-    function stopHeartbeat(){
-      if(presenceTimer) clearInterval(presenceTimer);
-      presenceTimer = null;
-    }
-
-    function setOnlineUI(isOnline){
-      if(isOnline){
-        onlineDot.classList.add("ok");
-        onlineText.textContent = "She: online";
-      }else{
-        onlineDot.classList.remove("ok");
-        onlineText.textContent = "She: offline";
-      }
-    }
-
-    // ===== CHAT =====
-    let unsubMsgs = null;
-    let unsubHerPresence = null;
-
-    async function sendMsg(){
-      const t = (msgInput.value||"").trim();
-      if(!t) return;
-      msgInput.value = "";
+    msgInput.value = "";
+    try {
       await addDoc(collection(db, "rooms", ROOM_ID, "messages"), {
-        text: t,
+        text,
         email: auth.currentUser?.email || "unknown",
         createdAt: serverTimestamp()
       });
+    } catch (e) {
+      alert("Send failed: " + (e.code || e.message));
+      console.log(e);
     }
-    sendBtn.addEventListener("click", sendMsg);
-    msgInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") sendMsg(); });
+  }
 
-    onAuthStateChanged(auth, async (user)=>{
-      if(!user){
-        stopHeartbeat();
-        hide(chatBox);
-        hide(logoutBtn);
-        show(loginBox);
-        whoLine.textContent = "Signed in…";
-        msgs.innerHTML = "";
-        setOnlineUI(false);
-        if(unsubMsgs) unsubMsgs();
-        if(unsubHerPresence) unsubHerPresence();
-        return;
-      }
+  sendBtn?.addEventListener("click", sendMsg);
+  msgInput?.addEventListener("keydown", (e) => { if(e.key === "Enter") sendMsg(); });
 
-      // logged in
-      hide(loginBox);
-      show(chatBox);
-      show(logoutBtn);
-      whoLine.textContent = "Signed in as: " + (user.email || "");
+  // LISTEN MESSAGES
+  function startListening(){
+    const q = query(
+      collection(db, "rooms", ROOM_ID, "messages"),
+      orderBy("createdAt", "asc"),
+      limit(200)
+    );
 
-      await setMyPresence(true);
-      startHeartbeat();
-
-      window.addEventListener("beforeunload", ()=>{ setMyPresence(false); });
-
-      // messages
-      const qMsgs = query(
-        collection(db, "rooms", ROOM_ID, "messages"),
-        orderBy("createdAt","asc"),
-        limit(250)
-      );
-
-      if(unsubMsgs) unsubMsgs();
-      unsubMsgs = onSnapQuery(qMsgs, (snap)=>{
-        msgs.innerHTML = "";
-        snap.forEach((docu)=>{
-          const m = docu.data();
-          const mine = (m.email === user.email);
-          const dt = m.createdAt?.toDate ? m.createdAt.toDate() : null;
-
-          const div = document.createElement("div");
-          div.className = "bubble" + (mine ? " me" : "");
-          div.innerHTML = `
-            <div>${escapeHtml(m.text||"")}</div>
-            <div class="meta">${escapeHtml(m.email||"")} ${dt ? "• "+dt.toLocaleString() : ""}</div>
-          `;
-          msgs.appendChild(div);
-        });
-        msgs.scrollTop = msgs.scrollHeight;
+    onSnapshot(q, (snap) => {
+      msgs.innerHTML = "";
+      snap.forEach((docu) => {
+        const m = docu.data();
+        const div = document.createElement("div");
+        div.className = "bubble" + (m.email === auth.currentUser?.email ? " me" : "");
+        div.innerHTML = `
+          <div>${escapeHtml(m.text || "")}</div>
+          <div class="meta">${escapeHtml(m.email || "")}</div>
+        `;
+        msgs.appendChild(div);
       });
-
-      // her online/offline
-      if(unsubHerPresence) unsubHerPresence();
-      unsubHerPresence = onSnapshot(doc(db, "presence", HER_UID), (snap)=>{
-        if(!snap.exists()){
-          setOnlineUI(false);
-          return;
-        }
-        const p = snap.data();
-        setOnlineUI(p.online === true);
-      });
+      msgs.scrollTop = msgs.scrollHeight;
+    }, (err) => {
+      alert("Listen error: " + (err.code || err.message));
+      console.log(err);
     });
-  </script>
+  }
+
+  function escapeHtml(s){
+    return (s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // AUTH STATE
+  onAuthStateChanged(auth, (user) => {
+    if(!user){
+      show(loginBox);
+      hide(chatBox);
+      msgs.innerHTML = "";
+      return;
+    }
+    hide(loginBox);
+    show(chatBox);
+    startListening();
+  });
+</script>
+
 </body>
   </html>
